@@ -11,6 +11,49 @@ let currentProblem = null;
 let startTime = null;
 let timerInterval = null;
 
+// Audio context for sound effects
+let audioContext = null;
+
+// Initialize audio context
+function initAudio() {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+}
+
+// Play success chime sound
+function playSuccessChime() {
+    initAudio();
+    
+    const now = audioContext.currentTime;
+    
+    // Create oscillator for melody notes
+    const notes = [
+        { freq: 523.25, time: 0, duration: 0.15 },      // C5
+        { freq: 659.25, time: 0.15, duration: 0.15 },   // E5
+        { freq: 783.99, time: 0.3, duration: 0.25 }     // G5
+    ];
+    
+    notes.forEach(note => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.type = 'sine';
+        oscillator.frequency.value = note.freq;
+        
+        // Envelope
+        gainNode.gain.setValueAtTime(0, now + note.time);
+        gainNode.gain.linearRampToValueAtTime(0.3, now + note.time + 0.02);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + note.time + note.duration);
+        
+        oscillator.start(now + note.time);
+        oscillator.stop(now + note.time + note.duration);
+    });
+}
+
 // Initialize game
 function initGame() {
     loadGameState();
@@ -112,7 +155,8 @@ function setupEventListeners() {
     // Back buttons
     document.getElementById('back-to-home').addEventListener('click', () => {
         showScreen('home-screen');
-        updateCategoryCards();
+        updateTotalStats();  // Update the header stats
+        updateCategoryCards();  // Update all category cards with latest results
     });
     
     document.getElementById('back-to-category').addEventListener('click', () => {
@@ -121,7 +165,8 @@ function setupEventListeners() {
     });
     
     document.getElementById('back-to-category-result').addEventListener('click', () => {
-        showScreen('category-screen');
+        // Refresh the category view to show updated stars/coins
+        openCategory(currentCategory);
     });
     
     // Answer submission
@@ -146,7 +191,8 @@ function setupEventListeners() {
                 gameState.categories[currentCategory + 1].unlocked = true;
                 saveGameState();
             }
-            showScreen('category-screen');
+            // Refresh the category view to show all updated results
+            openCategory(currentCategory);
         }
     });
 }
@@ -265,6 +311,9 @@ function checkAnswer() {
     const feedback = document.getElementById('feedback');
     
     if (userAnswer === currentProblem.answer) {
+        // Play success sound
+        playSuccessChime();
+        
         stopTimer();
         const timeSpent = getElapsedTime();
         
