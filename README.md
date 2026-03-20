@@ -24,6 +24,9 @@ A progressive math learning game designed for Israeli 3rd graders with Hebrew an
 5. **Division up to 99** (חילוק עד 99)
 6. **Fractions** (שברים)
 7. **Multiplication up to 20** (כפל עד 20)
+8. **Word Problems** (בעיות מילוליות) - Real-world scenarios with Israeli context
+9. **Place Value** (ערך מקומי) - Understanding digits and their positions
+10. **Time & Clock** (שעון וזמן) - Reading time and calculating durations
 
 Each category contains 10 problems with varying difficulty:
 - Problems 1-3: Easy

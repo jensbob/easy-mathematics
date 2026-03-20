@@ -8,27 +8,55 @@
 </head>
 <body>
     <div id="app">
+        <!-- Grade Picker Screen -->
+        <div id="grade-screen" class="screen active">
+            <div class="grade-picker-container">
+                <h1 class="grade-picker-title" data-lang="gradePicker">בחר/י כיתה</h1>
+                <div class="grade-cards">
+                    <div class="grade-card" data-grade="1">
+                        <div class="grade-emoji">🌱</div>
+                        <div class="grade-name-he">א'</div>
+                        <div class="grade-name-en">1st</div>
+                    </div>
+                    <div class="grade-card" data-grade="2">
+                        <div class="grade-emoji">📚</div>
+                        <div class="grade-name-he">ב'</div>
+                        <div class="grade-name-en">2nd</div>
+                    </div>
+                    <div class="grade-card" data-grade="3">
+                        <div class="grade-emoji">🏆</div>
+                        <div class="grade-name-he">ג'</div>
+                        <div class="grade-name-en">3rd</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Home Screen -->
-        <div id="home-screen" class="screen active">
+        <div id="home-screen" class="screen">
             <div class="header">
                 <h1 class="title" data-lang="title">משחק המתמטיקה</h1>
                 <div class="stats-bar">
-                    <div class="stat-item">
+                    <div class="stat-item coins">
                         <span class="coin-icon">🪙</span>
                         <span id="total-coins">0</span>
                     </div>
-                    <div class="stat-item">
+                    <div class="stat-item stars">
                         <span class="star-icon">⭐</span>
                         <span id="total-stars">0</span>
                     </div>
+                    <button id="house-btn" class="house-btn">🏠</button>
                     <button id="lang-toggle" class="lang-btn">EN</button>
+                    <button id="change-grade-btn" class="grade-btn" data-lang="changeGrade">החלף כיתה</button>
+                    <span id="grade-indicator" class="grade-indicator"></span>
+                    <button id="reset-btn" class="reset-btn" data-lang="reset">אפס</button>
                 </div>
             </div>
 
             <div class="categories-container">
                 <div class="category-card" data-category="0">
                     <div class="category-header">
-                        <h2 data-lang="cat0">חיבור עד 100</h2>
+                        <h2></h2>
                         <div class="category-progress">
                             <span class="progress-text"><span class="solved">0</span>/10</span>
                         </div>
@@ -45,7 +73,7 @@
 
                 <div class="category-card" data-category="1">
                     <div class="category-header">
-                        <h2 data-lang="cat1">חיסור עד 100</h2>
+                        <h2></h2>
                         <div class="category-progress">
                             <span class="progress-text"><span class="solved">0</span>/10</span>
                         </div>
@@ -62,7 +90,7 @@
 
                 <div class="category-card" data-category="2">
                     <div class="category-header">
-                        <h2 data-lang="cat2">כפל עד 12</h2>
+                        <h2></h2>
                         <div class="category-progress">
                             <span class="progress-text"><span class="solved">0</span>/10</span>
                         </div>
@@ -79,7 +107,7 @@
 
                 <div class="category-card" data-category="3">
                     <div class="category-header">
-                        <h2 data-lang="cat3">חיבור וחיסור עד 9999</h2>
+                        <h2></h2>
                         <div class="category-progress">
                             <span class="progress-text"><span class="solved">0</span>/10</span>
                         </div>
@@ -96,7 +124,7 @@
 
                 <div class="category-card" data-category="4">
                     <div class="category-header">
-                        <h2 data-lang="cat4">חילוק עד 99</h2>
+                        <h2></h2>
                         <div class="category-progress">
                             <span class="progress-text"><span class="solved">0</span>/10</span>
                         </div>
@@ -113,7 +141,7 @@
 
                 <div class="category-card" data-category="5">
                     <div class="category-header">
-                        <h2 data-lang="cat5">שברים</h2>
+                        <h2></h2>
                         <div class="category-progress">
                             <span class="progress-text"><span class="solved">0</span>/10</span>
                         </div>
@@ -130,7 +158,41 @@
 
                 <div class="category-card" data-category="6">
                     <div class="category-header">
-                        <h2 data-lang="cat6">כפל עד 20</h2>
+                        <h2></h2>
+                        <div class="category-progress">
+                            <span class="progress-text"><span class="solved">0</span>/10</span>
+                        </div>
+                    </div>
+                    <div class="category-stats">
+                        <span class="stars-earned">⭐ <span>0</span></span>
+                        <span class="coins-earned">🪙 <span>0</span></span>
+                    </div>
+                    <button class="start-btn" data-lang="start">התחל</button>
+                    <div class="lock-overlay">
+                        <span class="lock-icon">🔒</span>
+                    </div>
+                </div>
+
+                <div class="category-card" data-category="7">
+                    <div class="category-header">
+                        <h2></h2>
+                        <div class="category-progress">
+                            <span class="progress-text"><span class="solved">0</span>/10</span>
+                        </div>
+                    </div>
+                    <div class="category-stats">
+                        <span class="stars-earned">⭐ <span>0</span></span>
+                        <span class="coins-earned">🪙 <span>0</span></span>
+                    </div>
+                    <button class="start-btn" data-lang="start">התחל</button>
+                    <div class="lock-overlay">
+                        <span class="lock-icon">🔒</span>
+                    </div>
+                </div>
+
+                <div class="category-card" data-category="8">
+                    <div class="category-header">
+                        <h2></h2>
                         <div class="category-progress">
                             <span class="progress-text"><span class="solved">0</span>/10</span>
                         </div>
@@ -145,6 +207,20 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- House Screen -->
+        <div id="house-screen" class="screen">
+            <div class="header">
+                <button id="back-from-house" class="back-btn">← <span data-lang="back">חזור</span></button>
+                <h2 class="house-screen-title" data-lang="myHouse">הבית שלי</h2>
+            </div>
+            <div class="house-tabs">
+                <button id="house-tab-room" class="house-tab active" onclick="switchHouseTab('room')" data-lang="room">חדר</button>
+                <button id="house-tab-shop" class="house-tab" onclick="switchHouseTab('shop')" data-lang="shop">חנות</button>
+            </div>
+            <div id="room-view"></div>
+            <div id="shop-view" style="display:none"></div>
         </div>
 
         <!-- Category Screen -->
@@ -205,8 +281,33 @@
         </div>
     </div>
 
+    <!-- Reset Confirmation Modal (step 1) -->
+    <div id="reset-modal" class="modal-overlay">
+        <div class="modal">
+            <p class="modal-message" data-lang="resetConfirm">למחוק את כל ההתקדמות?</p>
+            <div class="modal-actions">
+                <button id="reset-cancel" class="secondary-btn" data-lang="no">לא</button>
+                <button id="reset-confirm" class="danger-btn" disabled></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset Confirmation Modal (step 2) -->
+    <div id="reset-modal-2" class="modal-overlay">
+        <div class="modal">
+            <p class="modal-message" data-lang="resetConfirm2">באמת בטוח? כל ההתקדמות תימחק!</p>
+            <div class="modal-actions">
+                <button id="reset-cancel-2" class="secondary-btn" data-lang="no">לא</button>
+                <button id="reset-confirm-2" class="danger-btn" disabled></button>
+            </div>
+        </div>
+    </div>
+
     <script src="translations.js"></script>
+    <script src="problems_g1.js"></script>
+    <script src="problems_g2.js"></script>
     <script src="problems.js"></script>
+    <script src="house.js"></script>
     <script src="game.js"></script>
 </body>
 </html>

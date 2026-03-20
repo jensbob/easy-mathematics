@@ -5,11 +5,42 @@ let gameState = {
     categories: []
 };
 
+let currentGrade = null;
 let currentCategory = null;
 let currentProblemIndex = null;
 let currentProblem = null;
 let startTime = null;
 let timerInterval = null;
+
+function gameStateKey() { return `mathGameState_g${currentGrade}`; }
+
+function getGenerators() {
+    if (currentGrade === 1) return problemGenerators_g1;
+    if (currentGrade === 2) return problemGenerators_g2;
+    return problemGenerators;
+}
+
+function getThresholds(difficulty, categoryId) {
+    if (currentGrade === 1) return getTimeThresholds_g1(difficulty);
+    if (currentGrade === 2) return getTimeThresholds_g2(difficulty, categoryId);
+    return getTimeThresholds(difficulty, categoryId);
+}
+
+function updateGradeIndicator() {
+    if (!currentGrade) return;
+    const el = document.getElementById('grade-indicator');
+    if (el) el.textContent = t(`gradeTitle${currentGrade}`);
+}
+
+function selectGrade(grade) {
+    currentGrade = grade;
+    loadHouseState();
+    loadGameState();
+    updateTotalStats();
+    updateCategoryCards();
+    updateGradeIndicator();
+    showScreen('home-screen');
+}
 
 // Audio context for sound effects
 let audioContext = null;
@@ -56,27 +87,24 @@ function playSuccessChime() {
 
 // Initialize game
 function initGame() {
-    loadGameState();
-    updateTotalStats();
-    updateCategoryCards();
     setupEventListeners();
-    
-    // Load saved language
+    // Load saved language (grade-screen is already active in HTML)
     const savedLang = localStorage.getItem('lang') || 'he';
     updateLanguage(savedLang);
 }
 
 // Load game state from localStorage
 function loadGameState() {
-    const saved = localStorage.getItem('mathGameState');
+    const saved = localStorage.getItem(gameStateKey());
     if (saved) {
         gameState = JSON.parse(saved);
+        gameState.totalCoins = computeTotalCoins();
     } else {
         // Initialize new game state
         gameState = {
             totalCoins: 0,
             totalStars: 0,
-            categories: Array.from({ length: 7 }, (_, i) => ({
+            categories: Array.from({ length: 9 }, (_, i) => ({
                 id: i,
                 unlocked: i === 0, // Only first category unlocked
                 problems: Array.from({ length: 10 }, (_, j) => ({
@@ -92,9 +120,28 @@ function loadGameState() {
     }
 }
 
+// Derive total coins from stars minus house purchases
+function computeTotalCoins() {
+    const earned = gameState.categories.reduce((total, cat) => {
+        return total + cat.problems.reduce((sum, problem, index) => {
+            if (!problem.solved) return sum;
+            return sum + getCoinReward(getDifficulty(index), problem.stars);
+        }, 0);
+    }, 0);
+
+    const spent = houseState.ownedItems.reduce((sum, itemId) => {
+        const item = SHOP_ITEMS.find(it => it.id === itemId);
+        return sum + (item ? item.cost : 0);
+    }, 0) + HOUSE_TIERS
+        .filter(tier => tier.level > 0 && tier.level <= houseState.houseLevel)
+        .reduce((sum, tier) => sum + tier.cost, 0);
+
+    return earned - spent;
+}
+
 // Save game state to localStorage
 function saveGameState() {
-    localStorage.setItem('mathGameState', JSON.stringify(gameState));
+    localStorage.setItem(gameStateKey(), JSON.stringify(gameState));
 }
 
 // Update total stats display
@@ -105,9 +152,14 @@ function updateTotalStats() {
 
 // Update category cards
 function updateCategoryCards() {
+    if (!currentGrade) return;
     document.querySelectorAll('.category-card').forEach(card => {
         const categoryId = parseInt(card.dataset.category);
         const category = gameState.categories[categoryId];
+
+        // Set category name based on current grade and language
+        const h2 = card.querySelector('h2');
+        if (h2) h2.textContent = t(`g${currentGrade}cat${categoryId}`);
         
         // Update lock state
         if (category.unlocked) {
@@ -119,7 +171,9 @@ function updateCategoryCards() {
         // Calculate stats
         const solvedCount = category.problems.filter(p => p.solved).length;
         const totalStars = category.problems.reduce((sum, p) => sum + p.stars, 0);
-        const totalCoins = category.problems.reduce((sum, p) => sum + p.coins, 0);
+        const totalCoins = category.problems.reduce((sum, p, i) => {
+            return sum + (p.solved ? getCoinReward(getDifficulty(i), p.stars) : 0);
+        }, 0);
         
         // Update display
         card.querySelector('.solved').textContent = solvedCount;
@@ -135,10 +189,97 @@ function updateCategoryCards() {
 
 // Setup event listeners
 function setupEventListeners() {
+    // House button
+    document.getElementById('house-btn').addEventListener('click', () => {
+        openHouseScreen('room');
+    });
+
+    // Back from house
+    document.getElementById('back-from-house').addEventListener('click', () => {
+        showScreen('home-screen');
+        updateTotalStats();
+        updateCategoryCards();
+    });
+
     // Language toggle
     document.getElementById('lang-toggle').addEventListener('click', () => {
         const newLang = currentLang === 'he' ? 'en' : 'he';
         updateLanguage(newLang);
+    });
+
+    // Helper: start a countdown modal
+    function startCountdownModal(modalId, confirmBtnId, cancelBtnId, waitKey, confirmKey, seconds, onConfirm) {
+        const modal = document.getElementById(modalId);
+        const confirmBtn = document.getElementById(confirmBtnId);
+        const cancelBtn = document.getElementById(cancelBtnId);
+
+        modal.classList.add('active');
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = t(waitKey).replace('{n}', seconds);
+
+        let remaining = seconds;
+        const countdown = setInterval(() => {
+            remaining--;
+            if (remaining > 0) {
+                confirmBtn.textContent = t(waitKey).replace('{n}', remaining);
+            } else {
+                clearInterval(countdown);
+                confirmBtn.disabled = false;
+                confirmBtn.textContent = t(confirmKey);
+            }
+        }, 1000);
+
+        const cancel = () => {
+            clearInterval(countdown);
+            modal.classList.remove('active');
+            confirmBtn.removeEventListener('click', confirm);
+            cancelBtn.removeEventListener('click', cancel);
+        };
+
+        const confirm = () => {
+            clearInterval(countdown);
+            modal.classList.remove('active');
+            confirmBtn.removeEventListener('click', confirm);
+            cancelBtn.removeEventListener('click', cancel);
+            onConfirm();
+        };
+
+        confirmBtn.addEventListener('click', confirm);
+        cancelBtn.addEventListener('click', cancel);
+    }
+
+    // Grade picker cards
+    document.querySelectorAll('.grade-card').forEach(card => {
+        card.addEventListener('click', () => {
+            selectGrade(parseInt(card.dataset.grade));
+        });
+    });
+
+    // Change grade button
+    document.getElementById('change-grade-btn').addEventListener('click', () => {
+        showScreen('grade-screen');
+    });
+
+    // Reset button — two-step confirmation (current grade only)
+    document.getElementById('reset-btn').addEventListener('click', () => {
+        startCountdownModal(
+            'reset-modal', 'reset-confirm', 'reset-cancel',
+            'resetWait', 'resetNext', 5,
+            () => {
+                startCountdownModal(
+                    'reset-modal-2', 'reset-confirm-2', 'reset-cancel-2',
+                    'resetWait2', 'resetNow', 10,
+                    () => {
+                        localStorage.removeItem(gameStateKey());
+                        localStorage.removeItem(`mathHouseState_g${currentGrade}`);
+                        houseState = { houseLevel: 0, ownedItems: [] };
+                        loadGameState();
+                        updateTotalStats();
+                        updateCategoryCards();
+                    }
+                );
+            }
+        );
     });
     
     // Category start buttons
@@ -161,7 +302,7 @@ function setupEventListeners() {
     
     document.getElementById('back-to-category').addEventListener('click', () => {
         stopTimer();
-        showScreen('category-screen');
+        openCategory(currentCategory);
     });
     
     document.getElementById('back-to-category-result').addEventListener('click', () => {
@@ -173,10 +314,18 @@ function setupEventListeners() {
     document.getElementById('submit-answer').addEventListener('click', checkAnswer);
     document.getElementById('answer-input').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
+            e.stopPropagation();
             checkAnswer();
         }
     });
     
+    // Enter key on result screen advances to next problem
+    document.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && document.getElementById('result-screen').classList.contains('active')) {
+            document.getElementById('next-problem').click();
+        }
+    });
+
     // Next problem button
     document.getElementById('next-problem').addEventListener('click', () => {
         const category = gameState.categories[currentCategory];
@@ -187,7 +336,7 @@ function setupEventListeners() {
         } else {
             // Category complete, check if we should unlock next
             const allSolved = category.problems.every(p => p.solved);
-            if (allSolved && currentCategory < 6) {
+            if (allSolved && currentCategory < 8) {
                 gameState.categories[currentCategory + 1].unlocked = true;
                 saveGameState();
             }
@@ -211,7 +360,7 @@ function openCategory(categoryId) {
     const category = gameState.categories[categoryId];
     
     // Update title
-    document.getElementById('category-title').textContent = t(`cat${categoryId}`);
+    document.getElementById('category-title').textContent = t(`g${currentGrade}cat${categoryId}`);
     
     // Generate problem cards
     const grid = document.querySelector('.problems-grid');
@@ -258,7 +407,7 @@ function openProblem(categoryId, problemIndex) {
     currentProblemIndex = problemIndex;
     
     // Generate problem
-    currentProblem = problemGenerators[categoryId][problemIndex]();
+    currentProblem = getGenerators()[categoryId][problemIndex]();
     
     // Update display
     document.getElementById('problem-number').textContent = `${t('problem')} ${problemIndex + 1}/10`;
@@ -318,7 +467,7 @@ function checkAnswer() {
         const timeSpent = getElapsedTime();
         
         // Calculate stars based on time
-        const thresholds = getTimeThresholds(currentProblem.difficulty);
+        const thresholds = getThresholds(currentProblem.difficulty, currentCategory);
         let stars = 1;
         if (timeSpent <= thresholds.excellent) {
             stars = 3;
@@ -326,32 +475,27 @@ function checkAnswer() {
             stars = 2;
         }
         
-        // Calculate coins
-        const coins = getCoinReward(currentProblem.difficulty, stars);
-        
         // Update game state
         const problem = gameState.categories[currentCategory].problems[currentProblemIndex];
-        
+
         // Only update if better than before or first solve
         if (!problem.solved || stars > problem.stars) {
-            // Remove old coins and stars if updating
             if (problem.solved) {
-                gameState.totalCoins -= problem.coins;
                 gameState.totalStars -= problem.stars;
             }
-            
+
             problem.solved = true;
             problem.stars = stars;
-            problem.coins = coins;
             problem.bestTime = timeSpent;
-            
-            gameState.totalCoins += coins;
+
             gameState.totalStars += stars;
-            
+            gameState.totalCoins = computeTotalCoins();
+
             saveGameState();
         }
-        
+
         // Show result screen
+        const coins = getCoinReward(getDifficulty(currentProblemIndex), stars);
         showResultScreen(stars, coins);
         
     } else {
