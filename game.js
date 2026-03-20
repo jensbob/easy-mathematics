@@ -91,6 +91,52 @@ function initGame() {
     // Load saved language (grade-screen is already active in HTML)
     const savedLang = localStorage.getItem('lang') || 'he';
     updateLanguage(savedLang);
+    // Load shared state from URL if present
+    checkImportState();
+}
+
+// Encode current grade state into a shareable URL
+function exportStateToURL() {
+    const gs = localStorage.getItem(gameStateKey());
+    const hs = localStorage.getItem(`mathHouseState_g${currentGrade}`);
+    const data = {
+        v: 1,
+        g: currentGrade,
+        gs: gs ? JSON.parse(gs) : null,
+        hs: hs ? JSON.parse(hs) : null,
+    };
+    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+    return location.href.split('?')[0] + '?s=' + encoded;
+}
+
+// On page load, check if URL contains shared state and load it
+function checkImportState() {
+    const params = new URLSearchParams(location.search);
+    const encoded = params.get('s');
+    if (!encoded) return;
+    let grade = null;
+    try {
+        const data = JSON.parse(decodeURIComponent(escape(atob(encoded))));
+        if (data.g && data.gs) {
+            localStorage.setItem(`mathGameState_g${data.g}`, JSON.stringify(data.gs));
+            if (data.hs) localStorage.setItem(`mathHouseState_g${data.g}`, JSON.stringify(data.hs));
+            grade = data.g;
+        }
+    } catch(e) {}
+    history.replaceState(null, '', location.pathname);
+    if (grade) selectGrade(grade);
+}
+
+// Open share modal with QR code and copyable link
+function openShareModal() {
+    const url = exportStateToURL();
+    document.getElementById('share-url-input').value = url;
+    const qrDiv = document.getElementById('share-qr');
+    qrDiv.innerHTML = '';
+    if (typeof QRCode !== 'undefined') {
+        new QRCode(qrDiv, { text: url, width: 180, height: 180, colorDark: '#1e293b', colorLight: '#ffffff' });
+    }
+    document.getElementById('share-modal').classList.add('active');
 }
 
 // Load game state from localStorage
@@ -247,6 +293,23 @@ function setupEventListeners() {
         confirmBtn.addEventListener('click', confirm);
         cancelBtn.addEventListener('click', cancel);
     }
+
+    // Share button
+    document.getElementById('share-btn').addEventListener('click', openShareModal);
+    document.getElementById('share-close').addEventListener('click', () => {
+        document.getElementById('share-modal').classList.remove('active');
+    });
+    document.getElementById('share-copy-btn').addEventListener('click', () => {
+        const input = document.getElementById('share-url-input');
+        const btn = document.getElementById('share-copy-btn');
+        navigator.clipboard.writeText(input.value).catch(() => {
+            input.select();
+            document.execCommand('copy');
+        }).finally(() => {});
+        const orig = btn.textContent;
+        btn.textContent = t('shareCopied');
+        setTimeout(() => { btn.textContent = orig; }, 2000);
+    });
 
     // Grade picker cards
     document.querySelectorAll('.grade-card').forEach(card => {

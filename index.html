@@ -49,6 +49,7 @@
                     <button id="lang-toggle" class="lang-btn">EN</button>
                     <button id="change-grade-btn" class="grade-btn" data-lang="changeGrade">החלף כיתה</button>
                     <span id="grade-indicator" class="grade-indicator"></span>
+                    <button id="share-btn" class="share-btn" data-lang="shareBtn">פתח בהתקן אחר (אין סנכרון)</button>
                     <button id="reset-btn" class="reset-btn" data-lang="reset">אפס</button>
                 </div>
             </div>
@@ -303,6 +304,20 @@
         </div>
     </div>
 
+    <!-- Share / QR modal -->
+    <div id="share-modal" class="modal-overlay">
+        <div class="modal share-modal">
+            <h3 class="share-modal-title" data-lang="shareTitle">פתח בהתקן אחר</h3>
+            <div id="share-qr" class="share-qr"></div>
+            <div class="share-url-row">
+                <input type="text" id="share-url-input" readonly class="share-url-input">
+                <button id="share-copy-btn" class="share-copy-btn" data-lang="shareCopy">העתק קישור</button>
+            </div>
+            <button id="share-close" class="secondary-btn" data-lang="back">חזור</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="translations.js"></script>
     <script src="problems_g1.js"></script>
     <script src="problems_g2.js"></script>

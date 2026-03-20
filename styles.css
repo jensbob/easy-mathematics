@@ -107,6 +107,78 @@ body {
     transform: scale(1.05);
 }
 
+.share-btn {
+    background: #0ea5e9;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+
+.share-btn:hover { background: #0284c7; }
+
+.share-modal {
+    max-width: 360px;
+    width: 92%;
+    text-align: center;
+}
+
+.share-modal-title {
+    margin: 0 0 16px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.share-qr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 180px;
+    margin-bottom: 16px;
+}
+
+.share-url-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.share-url-input {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    background: #f8fafc;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    direction: ltr;
+    text-align: left;
+}
+
+.share-copy-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+
+.share-copy-btn:hover { background: var(--primary-dark); }
+
 .reset-btn {
     background: transparent;
     border: 1.5px solid var(--border);
@@ -878,6 +950,11 @@ body {
     .lang-btn {
         padding: 8px 14px;
         font-size: 0.9rem;
+    }
+
+    .share-btn {
+        padding: 6px 10px;
+        font-size: 0.7rem;
     }
 
     .reset-btn {
