@@ -68,11 +68,17 @@ const ITEM_SVGS = {
     </svg>`,
 
     ball: `<svg width="52" height="52" viewBox="0 0 52 52">
-        <circle cx="26" cy="26" r="22" fill="#ef4444"/>
-        <path d="M4 26 Q14 10 26 4 Q38 10 48 26" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"/>
-        <path d="M4 26 Q14 42 26 48 Q38 42 48 26" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"/>
-        <line x1="4" y1="26" x2="48" y2="26" stroke="white" stroke-width="3"/>
-        <line x1="26" y1="4" x2="26" y2="48" stroke="white" stroke-width="3"/>
+        <path d="M26 26 L26 4 A22 22 0 0 1 45 15 Z" fill="#ef4444"/>
+        <path d="M26 26 L45 15 A22 22 0 0 1 45 37 Z" fill="#fbbf24"/>
+        <path d="M26 26 L45 37 A22 22 0 0 1 26 48 Z" fill="#22c55e"/>
+        <path d="M26 26 L26 48 A22 22 0 0 1 7 37 Z" fill="#3b82f6"/>
+        <path d="M26 26 L7 37 A22 22 0 0 1 7 15 Z" fill="#f97316"/>
+        <path d="M26 26 L7 15 A22 22 0 0 1 26 4 Z" fill="#ec4899"/>
+        <line x1="26" y1="4" x2="26" y2="48" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+        <line x1="7" y1="15" x2="45" y2="37" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+        <line x1="7" y1="37" x2="45" y2="15" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+        <circle cx="26" cy="26" r="22" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+        <ellipse cx="17" cy="15" rx="7" ry="5" fill="rgba(255,255,255,0.25)" transform="rotate(-30 17 15)"/>
     </svg>`,
 
     closet: `<svg width="52" height="52" viewBox="0 0 52 52">
@@ -97,17 +103,24 @@ const ITEM_SVGS = {
     </svg>`,
 
     icecream: `<svg width="52" height="52" viewBox="0 0 52 52">
-        <path d="M18 28 L26 50 L34 28 Z" fill="#fde68a"/>
-        <path d="M20 28 L26 46 L32 28 Z" fill="#fbbf24"/>
-        <circle cx="18" cy="22" r="10" fill="#f9a8d4"/>
-        <circle cx="34" cy="22" r="10" fill="#a7f3d0"/>
-        <circle cx="26" cy="18" r="10" fill="#fca5a5"/>
-        <circle cx="18" cy="22" r="7" fill="#fbcfe8"/>
-        <circle cx="34" cy="22" r="7" fill="#6ee7b7"/>
-        <circle cx="26" cy="18" r="7" fill="#fecaca"/>
-        <circle cx="16" cy="20" r="2" fill="#ec4899"/>
-        <circle cx="32" cy="19" r="2" fill="#10b981"/>
-        <circle cx="26" cy="13" r="2" fill="#ef4444"/>
+        <rect x="8" y="4" width="36" height="34" rx="5" fill="#f1f5f9"/>
+        <rect x="8" y="4" width="36" height="10" rx="5" fill="#e2e8f0"/>
+        <rect x="8" y="9" width="36" height="5" fill="#e2e8f0"/>
+        <rect x="11" y="6" width="18" height="5" rx="2" fill="#7dd3fc"/>
+        <circle cx="35" cy="8" r="2.5" fill="#4ade80"/>
+        <circle cx="41" cy="8" r="2.5" fill="#fbbf24"/>
+        <rect x="10" y="16" width="14" height="16" rx="3" fill="#fce7f3"/>
+        <ellipse cx="17" cy="22" rx="5" ry="4" fill="#fda4af"/>
+        <rect x="28" y="16" width="14" height="16" rx="3" fill="#dbeafe"/>
+        <ellipse cx="35" cy="22" rx="5" ry="4" fill="#93c5fd"/>
+        <rect x="11" y="30" width="12" height="5" rx="2.5" fill="#ec4899"/>
+        <rect x="29" y="30" width="12" height="5" rx="2.5" fill="#3b82f6"/>
+        <rect x="15" y="34" width="4" height="6" rx="1.5" fill="#94a3b8"/>
+        <rect x="33" y="34" width="4" height="6" rx="1.5" fill="#94a3b8"/>
+        <rect x="8" y="38" width="36" height="4" rx="2" fill="#94a3b8"/>
+        <rect x="6" y="41" width="40" height="4" rx="2" fill="#64748b"/>
+        <path d="M17 44 Q14 46 17 48 Q20 50 17 51" fill="none" stroke="#fda4af" stroke-width="4" stroke-linecap="round"/>
+        <path d="M35 44 Q32 46 35 48 Q38 50 35 51" fill="none" stroke="#93c5fd" stroke-width="4" stroke-linecap="round"/>
     </svg>`,
 
     pizza: `<svg width="52" height="52" viewBox="0 0 52 52">
@@ -136,16 +149,21 @@ const ITEM_SVGS = {
     </svg>`,
 
     candy: `<svg width="52" height="52" viewBox="0 0 52 52">
-        <rect x="22" y="34" width="8" height="14" rx="2" fill="#94a3b8"/>
-        <circle cx="26" cy="24" r="18" fill="#f9a8d4"/>
-        <circle cx="26" cy="24" r="14" fill="#fce7f3"/>
-        <path d="M12 24 Q26 8 40 24" fill="none" stroke="#ec4899" stroke-width="5" stroke-linecap="round"/>
-        <path d="M12 24 Q26 40 40 24" fill="none" stroke="#ec4899" stroke-width="5" stroke-linecap="round"/>
-        <circle cx="26" cy="24" r="5" fill="#f472b6"/>
-        <circle cx="16" cy="16" r="3" fill="#fbbf24"/>
-        <circle cx="36" cy="16" r="3" fill="#a78bfa"/>
-        <circle cx="16" cy="32" r="3" fill="#34d399"/>
-        <circle cx="36" cy="32" r="3" fill="#f87171"/>
+        <rect x="16" y="2" width="20" height="6" rx="3" fill="#b91c1c"/>
+        <rect x="12" y="6" width="28" height="7" rx="3.5" fill="#dc2626"/>
+        <rect x="10" y="11" width="32" height="37" rx="6" fill="#fef9c3" opacity="0.9"/>
+        <rect x="12" y="13" width="7" height="28" rx="3.5" fill="rgba(255,255,255,0.25)"/>
+        <circle cx="19" cy="24" r="6" fill="#ef4444"/>
+        <circle cx="31" cy="22" r="6" fill="#3b82f6"/>
+        <circle cx="23" cy="34" r="6" fill="#22c55e"/>
+        <circle cx="35" cy="33" r="6" fill="#f97316"/>
+        <circle cx="19" cy="41" r="5" fill="#a855f7"/>
+        <circle cx="33" cy="43" r="5" fill="#ec4899"/>
+        <circle cx="17" cy="22" r="2.5" fill="rgba(255,255,255,0.45)"/>
+        <circle cx="29" cy="20" r="2.5" fill="rgba(255,255,255,0.45)"/>
+        <circle cx="21" cy="32" r="2.5" fill="rgba(255,255,255,0.45)"/>
+        <circle cx="33" cy="31" r="2.5" fill="rgba(255,255,255,0.45)"/>
+        <rect x="10" y="11" width="32" height="37" rx="6" fill="none" stroke="#e5e7eb" stroke-width="1.5"/>
     </svg>`,
 
     garden: `<svg width="52" height="52" viewBox="0 0 52 52">
@@ -180,17 +198,23 @@ const ITEM_SVGS = {
     </svg>`,
 
     sandbox: `<svg width="52" height="52" viewBox="0 0 52 52">
-        <ellipse cx="26" cy="42" rx="22" ry="8" fill="#fbbf24"/>
-        <ellipse cx="26" cy="42" rx="18" ry="6" fill="#fde68a"/>
-        <rect x="4" y="36" width="44" height="6" rx="3" fill="#f59e0b"/>
-        <ellipse cx="20" cy="38" rx="5" ry="3" fill="#fbbf24"/>
-        <ellipse cx="32" cy="39" rx="4" ry="2.5" fill="#fde68a"/>
-        <rect x="22" y="30" width="5" height="10" rx="1" fill="#94a3b8"/>
-        <path d="M18 30 L22 30 L24 24 L20 24 Z" fill="#f97316"/>
-        <rect x="10" y="32" width="8" height="5" rx="2" fill="#ef4444"/>
-        <rect x="11" y="30" width="6" height="3" rx="1" fill="#fca5a5"/>
-        <circle cx="34" cy="34" r="4" fill="#fbbf24" opacity="0.6"/>
-        <circle cx="38" cy="37" r="3" fill="#fde68a" opacity="0.8"/>
+        <rect x="4" y="28" width="44" height="20" rx="4" fill="#92400e"/>
+        <rect x="7" y="31" width="38" height="15" rx="2" fill="#fde68a"/>
+        <ellipse cx="18" cy="32" rx="7" ry="2.5" fill="#fbbf24" opacity="0.6"/>
+        <ellipse cx="36" cy="33" rx="6" ry="2" fill="#fbbf24" opacity="0.5"/>
+        <rect x="20" y="18" width="12" height="14" rx="1" fill="#fbbf24"/>
+        <rect x="19" y="14" width="3" height="6" rx="1" fill="#fbbf24"/>
+        <rect x="23" y="14" width="3" height="6" rx="1" fill="#fbbf24"/>
+        <rect x="27" y="14" width="3" height="6" rx="1" fill="#fbbf24"/>
+        <rect x="31" y="14" width="2" height="6" rx="1" fill="#fbbf24"/>
+        <rect x="23" y="25" width="6" height="7" rx="2" fill="#d97706"/>
+        <circle cx="26" cy="12" r="2.5" fill="#f97316"/>
+        <rect x="7" y="14" width="10" height="15" rx="1" fill="#ef4444"/>
+        <rect x="6" y="12" width="12" height="4" rx="1.5" fill="#dc2626"/>
+        <rect x="6" y="25" width="12" height="3" rx="1" fill="#fbbf24"/>
+        <path d="M9 12 Q12 7 15 12" fill="none" stroke="#b91c1c" stroke-width="2" stroke-linecap="round"/>
+        <rect x="36" y="8" width="4" height="22" rx="1.5" fill="#92400e"/>
+        <path d="M34 8 Q38 3 42 8 L40 14 L36 14 Z" fill="#d97706"/>
     </svg>`,
 
     pool: `<svg width="52" height="52" viewBox="0 0 52 52">
@@ -283,17 +307,34 @@ const ITEM_SVGS = {
     </svg>`,
 
     bicycle: `<svg width="52" height="52" viewBox="0 0 52 52">
-        <circle cx="12" cy="36" r="12" fill="none" stroke="#6366f1" stroke-width="3"/>
-        <circle cx="40" cy="36" r="12" fill="none" stroke="#6366f1" stroke-width="3"/>
-        <circle cx="12" cy="36" r="3" fill="#6366f1"/>
-        <circle cx="40" cy="36" r="3" fill="#6366f1"/>
-        <line x1="12" y1="36" x2="26" y2="16" stroke="#475569" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="40" y1="36" x2="26" y2="16" stroke="#475569" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="26" y1="16" x2="12" y2="36" stroke="#475569" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="20" y1="26" x2="40" y2="36" stroke="#475569" stroke-width="2.5" stroke-linecap="round"/>
-        <rect x="22" y="12" width="8" height="4" rx="2" fill="#f59e0b"/>
-        <rect x="18" y="10" width="16" height="3" rx="1.5" fill="#94a3b8"/>
-        <circle cx="26" cy="16" r="2" fill="#1e293b"/>
+        <circle cx="12" cy="38" r="10" fill="none" stroke="#6366f1" stroke-width="3"/>
+        <circle cx="12" cy="38" r="2.5" fill="#6366f1"/>
+        <line x1="12" y1="28" x2="12" y2="48" stroke="#818cf8" stroke-width="1.5"/>
+        <line x1="2" y1="38" x2="22" y2="38" stroke="#818cf8" stroke-width="1.5"/>
+        <line x1="5" y1="31" x2="19" y2="45" stroke="#818cf8" stroke-width="1.5"/>
+        <line x1="5" y1="45" x2="19" y2="31" stroke="#818cf8" stroke-width="1.5"/>
+        <circle cx="40" cy="38" r="10" fill="none" stroke="#6366f1" stroke-width="3"/>
+        <circle cx="40" cy="38" r="2.5" fill="#6366f1"/>
+        <line x1="40" y1="28" x2="40" y2="48" stroke="#818cf8" stroke-width="1.5"/>
+        <line x1="30" y1="38" x2="50" y2="38" stroke="#818cf8" stroke-width="1.5"/>
+        <line x1="33" y1="31" x2="47" y2="45" stroke="#818cf8" stroke-width="1.5"/>
+        <line x1="33" y1="45" x2="47" y2="31" stroke="#818cf8" stroke-width="1.5"/>
+        <line x1="26" y1="36" x2="22" y2="20" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+        <line x1="26" y1="36" x2="12" y2="38" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+        <line x1="22" y1="20" x2="12" y2="38" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+        <line x1="22" y1="20" x2="38" y2="20" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+        <line x1="38" y1="20" x2="26" y2="36" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+        <line x1="38" y1="20" x2="40" y2="38" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="26" cy="36" r="3.5" fill="#d97706"/>
+        <line x1="22" y1="40" x2="30" y2="32" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+        <rect x="19" y="39" width="6" height="2.5" rx="1.2" fill="#64748b"/>
+        <rect x="27.5" y="31" width="6" height="2.5" rx="1.2" fill="#64748b"/>
+        <rect x="20" y="9" width="3.5" height="13" rx="1.5" fill="#475569"/>
+        <rect x="13" y="8" width="14" height="4" rx="2" fill="#1e293b"/>
+        <rect x="36.5" y="9" width="3.5" height="13" rx="1.5" fill="#475569"/>
+        <rect x="30" y="7" width="16" height="4" rx="2" fill="#1e293b"/>
+        <rect x="29" y="7" width="4" height="8" rx="2" fill="#64748b"/>
+        <rect x="43" y="7" width="4" height="8" rx="2" fill="#64748b"/>
     </svg>`,
 
     cat: `<svg width="52" height="52" viewBox="0 0 52 52">
@@ -373,57 +414,77 @@ const ITEM_SVGS = {
     </svg>`,
 
     train: `<svg width="52" height="52" viewBox="0 0 52 52">
-        <rect x="4" y="16" width="30" height="22" rx="4" fill="#ef4444"/>
-        <rect x="34" y="22" width="14" height="16" rx="3" fill="#f97316"/>
-        <rect x="6" y="18" width="12" height="9" rx="2" fill="#bfdbfe"/>
-        <rect x="20" y="18" width="10" height="9" rx="2" fill="#bfdbfe"/>
-        <rect x="36" y="24" width="10" height="8" rx="2" fill="#fed7aa"/>
-        <circle cx="11" cy="42" r="6" fill="#1e293b"/>
-        <circle cx="11" cy="42" r="3" fill="#64748b"/>
-        <circle cx="27" cy="42" r="6" fill="#1e293b"/>
-        <circle cx="27" cy="42" r="3" fill="#64748b"/>
-        <circle cx="42" cy="42" r="5" fill="#1e293b"/>
-        <circle cx="42" cy="42" r="2.5" fill="#64748b"/>
-        <rect x="4" y="36" width="44" height="4" rx="2" fill="#dc2626"/>
-        <rect x="2" y="38" width="48" height="3" rx="1.5" fill="#475569"/>
-        <path d="M30 16 Q32 8 36 6" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="36" cy="5" r="3" fill="#e2e8f0" opacity="0.7"/>
-        <circle cx="38" cy="3" r="2" fill="#e2e8f0" opacity="0.5"/>
+        <rect x="9" y="10" width="7" height="14" rx="2" fill="#7f1d1d"/>
+        <rect x="7" y="8" width="11" height="4" rx="2" fill="#991b1b"/>
+        <circle cx="13" cy="5" r="3.5" fill="#e2e8f0" opacity="0.9"/>
+        <circle cx="19" cy="3" r="2.5" fill="#e2e8f0" opacity="0.65"/>
+        <circle cx="24" cy="1" r="2" fill="#e2e8f0" opacity="0.4"/>
+        <rect x="32" y="12" width="18" height="24" rx="3" fill="#b91c1c"/>
+        <rect x="35" y="15" width="7" height="8" rx="2" fill="#bfdbfe"/>
+        <rect x="44" y="15" width="4" height="8" rx="2" fill="#bfdbfe"/>
+        <rect x="36" y="16" width="2" height="5" rx="1" fill="rgba(255,255,255,0.4)"/>
+        <rect x="4" y="22" width="34" height="14" rx="7" fill="#dc2626"/>
+        <ellipse cx="26" cy="22" rx="6" ry="4" fill="#991b1b"/>
+        <line x1="18" y1="22" x2="18" y2="36" stroke="#b91c1c" stroke-width="1.5"/>
+        <line x1="28" y1="22" x2="28" y2="36" stroke="#b91c1c" stroke-width="1.5"/>
+        <rect x="2" y="34" width="48" height="4" rx="2" fill="#991b1b"/>
+        <circle cx="11" cy="42" r="7" fill="#1e293b"/>
+        <circle cx="11" cy="42" r="3.5" fill="#374151"/>
+        <circle cx="11" cy="42" r="1.5" fill="#9ca3af"/>
+        <circle cx="25" cy="42" r="7" fill="#1e293b"/>
+        <circle cx="25" cy="42" r="3.5" fill="#374151"/>
+        <circle cx="25" cy="42" r="1.5" fill="#9ca3af"/>
+        <circle cx="41" cy="42" r="6" fill="#1e293b"/>
+        <circle cx="41" cy="42" r="3" fill="#374151"/>
+        <circle cx="41" cy="42" r="1.5" fill="#9ca3af"/>
+        <line x1="11" y1="39" x2="25" y2="39" stroke="#6b7280" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="5" cy="27" r="3" fill="#fbbf24"/>
+        <circle cx="5" cy="27" r="1.8" fill="#fef9c3"/>
     </svg>`,
 
     scooter: `<svg width="52" height="52" viewBox="0 0 52 52">
-        <circle cx="10" cy="42" r="8" fill="none" stroke="#6366f1" stroke-width="3"/>
-        <circle cx="42" cy="42" r="8" fill="none" stroke="#6366f1" stroke-width="3"/>
-        <circle cx="10" cy="42" r="2.5" fill="#6366f1"/>
-        <circle cx="42" cy="42" r="2.5" fill="#6366f1"/>
-        <line x1="10" y1="42" x2="36" y2="18" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
-        <line x1="36" y1="18" x2="42" y2="42" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
-        <rect x="22" y="34" width="20" height="4" rx="2" fill="#22c55e"/>
-        <rect x="32" y="12" width="4" height="16" rx="2" fill="#64748b"/>
-        <rect x="26" y="10" width="16" height="4" rx="2" fill="#94a3b8"/>
-        <rect x="24" y="8" width="4" height="4" rx="1" fill="#475569"/>
-        <rect x="40" y="8" width="4" height="4" rx="1" fill="#475569"/>
+        <circle cx="11" cy="38" r="10" fill="none" stroke="#6366f1" stroke-width="3"/>
+        <circle cx="11" cy="38" r="2.5" fill="#6366f1"/>
+        <line x1="11" y1="28" x2="11" y2="48" stroke="#818cf8" stroke-width="1.5"/>
+        <line x1="1" y1="38" x2="21" y2="38" stroke="#818cf8" stroke-width="1.5"/>
+        <circle cx="41" cy="38" r="10" fill="none" stroke="#6366f1" stroke-width="3"/>
+        <circle cx="41" cy="38" r="2.5" fill="#6366f1"/>
+        <line x1="41" y1="28" x2="41" y2="48" stroke="#818cf8" stroke-width="1.5"/>
+        <line x1="31" y1="38" x2="51" y2="38" stroke="#818cf8" stroke-width="1.5"/>
+        <rect x="9" y="25" width="30" height="6" rx="3" fill="#22c55e"/>
+        <rect x="7" y="21" width="5" height="8" rx="2" fill="#16a34a"/>
+        <line x1="41" y1="28" x2="41" y2="25" stroke="#475569" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="41" y1="25" x2="33" y2="5" stroke="#475569" stroke-width="3.5" stroke-linecap="round"/>
+        <rect x="25" y="3" width="18" height="4" rx="2" fill="#374151"/>
+        <rect x="23" y="2" width="5" height="8" rx="2.5" fill="#ef4444"/>
+        <rect x="39" y="2" width="5" height="8" rx="2.5" fill="#ef4444"/>
     </svg>`,
 
     skateboard: `<svg width="52" height="52" viewBox="0 0 52 52">
-        <rect x="4" y="22" width="44" height="10" rx="5" fill="#f97316"/>
-        <rect x="6" y="22" width="40" height="10" rx="5" fill="#fb923c"/>
-        <rect x="2" y="24" width="6" height="6" rx="3" fill="#f97316"/>
-        <rect x="44" y="24" width="6" height="6" rx="3" fill="#f97316"/>
-        <rect x="10" y="32" width="10" height="4" rx="2" fill="#475569"/>
-        <rect x="32" y="32" width="10" height="4" rx="2" fill="#475569"/>
-        <circle cx="13" cy="38" r="4" fill="#1e293b"/>
-        <circle cx="21" cy="38" r="4" fill="#1e293b"/>
-        <circle cx="31" cy="38" r="4" fill="#1e293b"/>
-        <circle cx="39" cy="38" r="4" fill="#1e293b"/>
-        <circle cx="13" cy="38" r="2" fill="#475569"/>
-        <circle cx="21" cy="38" r="2" fill="#475569"/>
-        <circle cx="31" cy="38" r="2" fill="#475569"/>
-        <circle cx="39" cy="38" r="2" fill="#475569"/>
-        <rect x="18" y="14" width="16" height="8" rx="2" fill="#fbbf24" opacity="0.8"/>
-        <line x1="22" y1="16" x2="22" y2="20" stroke="#f59e0b" stroke-width="2"/>
-        <line x1="26" y1="15" x2="26" y2="21" stroke="#f59e0b" stroke-width="2"/>
-        <line x1="30" y1="16" x2="30" y2="20" stroke="#f59e0b" stroke-width="2"/>
+        <rect x="3" y="20" width="46" height="9" rx="4" fill="#f97316"/>
+        <rect x="6" y="21" width="40" height="7" rx="3" fill="#fb923c"/>
+        <circle cx="26" cy="24" r="5" fill="#a855f7" opacity="0.8"/>
+        <circle cx="26" cy="24" r="3" fill="#7c3aed"/>
+        <path d="M3 20 Q1 20 1 16 L4 16 Q4 19 5 20 Z" fill="#ea580c"/>
+        <path d="M49 20 Q51 20 51 17 L48 17 Q48 19 47 20 Z" fill="#ea580c"/>
+        <rect x="7" y="29" width="14" height="4" rx="2" fill="#374151"/>
+        <rect x="31" y="29" width="14" height="4" rx="2" fill="#374151"/>
+        <circle cx="10" cy="37" r="1" fill="#9ca3af"/>
+        <circle cx="19" cy="37" r="1" fill="#9ca3af"/>
+        <circle cx="33" cy="37" r="1" fill="#9ca3af"/>
+        <circle cx="42" cy="37" r="1" fill="#9ca3af"/>
+        <circle cx="11" cy="38" r="6" fill="#1e293b"/>
+        <circle cx="11" cy="38" r="3" fill="#374151"/>
+        <circle cx="11" cy="38" r="1.2" fill="#6b7280"/>
+        <circle cx="19" cy="38" r="6" fill="#1e293b"/>
+        <circle cx="19" cy="38" r="3" fill="#374151"/>
+        <circle cx="19" cy="38" r="1.2" fill="#6b7280"/>
+        <circle cx="33" cy="38" r="6" fill="#1e293b"/>
+        <circle cx="33" cy="38" r="3" fill="#374151"/>
+        <circle cx="33" cy="38" r="1.2" fill="#6b7280"/>
+        <circle cx="41" cy="38" r="6" fill="#1e293b"/>
+        <circle cx="41" cy="38" r="3" fill="#374151"/>
+        <circle cx="41" cy="38" r="1.2" fill="#6b7280"/>
     </svg>`,
 
     headphones: `<svg width="52" height="52" viewBox="0 0 52 52">
@@ -449,22 +510,25 @@ const ITEM_SVGS = {
     </svg>`,
 
     guitar: `<svg width="52" height="52" viewBox="0 0 52 52">
-        <rect x="23" y="2" width="6" height="14" rx="2" fill="#92400e"/>
-        <rect x="21" y="2" width="10" height="4" rx="2" fill="#78350f"/>
-        <line x1="22" y1="4" x2="22" y2="16" stroke="#fbbf24" stroke-width="1"/>
-        <line x1="25" y1="4" x2="25" y2="16" stroke="#fbbf24" stroke-width="1"/>
-        <line x1="28" y1="4" x2="28" y2="16" stroke="#fbbf24" stroke-width="1"/>
-        <circle cx="20" cy="5" r="2" fill="#b45309"/>
-        <circle cx="32" cy="5" r="2" fill="#b45309"/>
-        <circle cx="20" cy="10" r="2" fill="#b45309"/>
-        <circle cx="32" cy="10" r="2" fill="#b45309"/>
-        <ellipse cx="26" cy="34" rx="12" ry="14" fill="#d97706"/>
-        <ellipse cx="26" cy="34" rx="10" ry="12" fill="#f59e0b"/>
-        <ellipse cx="26" cy="26" rx="8" ry="6" fill="#d97706"/>
-        <ellipse cx="26" cy="26" rx="6" ry="5" fill="#fbbf24"/>
-        <circle cx="26" cy="34" r="4" fill="#92400e"/>
-        <circle cx="26" cy="34" r="2.5" fill="#451a03"/>
-        <line x1="26" y1="16" x2="26" y2="46" stroke="#92400e" stroke-width="1.5"/>
+        <rect x="22" y="1" width="8" height="14" rx="3" fill="#92400e"/>
+        <rect x="18" y="1" width="16" height="7" rx="3" fill="#78350f"/>
+        <circle cx="18" cy="3" r="2" fill="#d97706"/>
+        <circle cx="18" cy="8" r="2" fill="#d97706"/>
+        <circle cx="34" cy="3" r="2" fill="#d97706"/>
+        <circle cx="34" cy="8" r="2" fill="#d97706"/>
+        <path d="M26 13 C34 13 37 17 37 22 C37 26 35 28 32 30 C30 32 40 33 40 38 C40 44 33 49 26 49 C19 49 12 44 12 38 C12 33 22 32 20 30 C17 28 15 26 15 22 C15 17 18 13 26 13 Z" fill="#b45309"/>
+        <path d="M26 14 C33 14 36 17 36 22 C36 26 34 28 31 30 C29 32 38 33 38 38 C38 44 33 48 26 48 C19 48 14 44 14 38 C14 33 22 32 21 30 C18 28 16 26 16 22 C16 17 19 14 26 14 Z" fill="#d97706"/>
+        <rect x="22" y="5" width="8" height="1.5" rx="0.75" fill="#c4b5fd"/>
+        <rect x="22" y="8" width="8" height="1.5" rx="0.75" fill="#c4b5fd"/>
+        <rect x="22" y="11" width="8" height="1.5" rx="0.75" fill="#c4b5fd"/>
+        <rect x="22" y="13" width="8" height="2" rx="1" fill="#fbbf24"/>
+        <circle cx="26" cy="34" r="7" fill="#7c2d12"/>
+        <circle cx="26" cy="34" r="5.5" fill="#451a03"/>
+        <line x1="23" y1="3" x2="23" y2="47" stroke="#d1d5db" stroke-width="0.9" opacity="0.8"/>
+        <line x1="26" y1="3" x2="26" y2="47" stroke="#d1d5db" stroke-width="0.9" opacity="0.8"/>
+        <line x1="29" y1="3" x2="29" y2="47" stroke="#d1d5db" stroke-width="0.9" opacity="0.8"/>
+        <rect x="20" y="44" width="12" height="4" rx="2" fill="#92400e"/>
+        <rect x="20" y="44" width="12" height="1.5" rx="0.75" fill="#fbbf24"/>
     </svg>`,
 
     telescope: `<svg width="52" height="52" viewBox="0 0 52 52">
