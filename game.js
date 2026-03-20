@@ -39,6 +39,7 @@ function selectGrade(grade) {
     updateTotalStats();
     updateCategoryCards();
     updateGradeIndicator();
+    pushNav({ g: grade });
     showScreen('home-screen');
 }
 
@@ -85,6 +86,36 @@ function playSuccessChime() {
     });
 }
 
+function restoreFromURL() {
+    const params = new URLSearchParams(location.search);
+    const g = parseInt(params.get('g'));
+    const c = params.get('c');
+    const p = params.get('p');
+    const house = params.get('house');
+    if (!g || g < 1 || g > 3) return false;
+    currentGrade = g;
+    loadHouseState();
+    loadGameState();
+    updateTotalStats();
+    updateCategoryCards();
+    updateGradeIndicator();
+    if (house) {
+        showScreen('house-screen');
+        updateHouseCoins();
+        switchHouseTab('room');
+    } else if (c !== null && p !== null) {
+        const catId = parseInt(c);
+        const probIdx = parseInt(p);
+        openCategory(catId);
+        openProblem(catId, probIdx);
+    } else if (c !== null) {
+        openCategory(parseInt(c));
+    } else {
+        showScreen('home-screen');
+    }
+    return true;
+}
+
 // Initialize game
 function initGame() {
     setupEventListeners();
@@ -98,7 +129,16 @@ function initGame() {
             banner.style.display = 'block';
             setTimeout(() => { banner.style.display = 'none'; }, 4000);
         }
+    } else {
+        restoreFromURL();
     }
+
+    // Handle browser back/forward
+    window.addEventListener('popstate', () => {
+        if (!restoreFromURL()) {
+            showScreen('grade-screen');
+        }
+    });
 }
 
 // Unicode-safe base64 encode/decode
@@ -260,6 +300,7 @@ function setupEventListeners() {
 
     // Back from house
     document.getElementById('back-from-house').addEventListener('click', () => {
+        replaceNav({ g: currentGrade });
         showScreen('home-screen');
         updateTotalStats();
         updateCategoryCards();
@@ -347,6 +388,7 @@ function setupEventListeners() {
 
     // Change grade button
     document.getElementById('change-grade-btn').addEventListener('click', () => {
+        replaceNav(null);
         showScreen('grade-screen');
     });
 
@@ -385,9 +427,10 @@ function setupEventListeners() {
     
     // Back buttons
     document.getElementById('back-to-home').addEventListener('click', () => {
+        replaceNav({ g: currentGrade });
         showScreen('home-screen');
-        updateTotalStats();  // Update the header stats
-        updateCategoryCards();  // Update all category cards with latest results
+        updateTotalStats();
+        updateCategoryCards();
     });
     
     document.getElementById('back-to-category').addEventListener('click', () => {
@@ -436,6 +479,17 @@ function setupEventListeners() {
     });
 }
 
+// URL breadcrumb helpers
+function pushNav(params) {
+    const url = params ? location.pathname + '?' + new URLSearchParams(params).toString() : location.pathname;
+    history.pushState(params || {}, '', url);
+}
+
+function replaceNav(params) {
+    const url = params ? location.pathname + '?' + new URLSearchParams(params).toString() : location.pathname;
+    history.replaceState(params || {}, '', url);
+}
+
 // Show screen
 function showScreen(screenId) {
     document.querySelectorAll('.screen').forEach(screen => {
@@ -447,6 +501,7 @@ function showScreen(screenId) {
 // Open category
 function openCategory(categoryId) {
     currentCategory = categoryId;
+    pushNav({ g: currentGrade, c: categoryId });
     const category = gameState.categories[categoryId];
     
     // Update title
@@ -495,6 +550,7 @@ function openCategory(categoryId) {
 function openProblem(categoryId, problemIndex) {
     currentCategory = categoryId;
     currentProblemIndex = problemIndex;
+    pushNav({ g: currentGrade, c: categoryId, p: problemIndex });
     
     // Generate problem
     currentProblem = getGenerators()[categoryId][problemIndex]();

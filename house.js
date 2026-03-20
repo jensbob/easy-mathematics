@@ -639,6 +639,7 @@ function updateHouseCoins() {
 
 function openHouseScreen(view) {
     loadHouseState();
+    pushNav({ g: currentGrade, house: 1 });
     showScreen('house-screen');
     updateHouseCoins();
     switchHouseTab(view || 'room');
