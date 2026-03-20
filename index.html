@@ -31,6 +31,7 @@
                 </div>
                 <div id="import-banner" class="import-banner" data-lang="shareImported" style="display:none">✓ ההתקדמות נטענה! בחר/י כיתה.</div>
                 <button id="share-btn" class="share-btn" data-lang="shareBtn">העבר התקדמות להתקן אחר</button>
+                <button id="lang-toggle" class="lang-toggle-btn">🇺🇸 English</button>
             </div>
         </div>
 
@@ -48,7 +49,6 @@
                         <span id="total-stars">0</span>
                     </div>
                     <button id="house-btn" class="house-btn">🏠</button>
-                    <button id="lang-toggle" class="header-btn">EN</button>
                     <button id="change-grade-btn" class="header-btn" data-lang="changeGrade">החלף כיתה</button>
                     <button id="reset-btn" class="header-btn reset-btn" data-lang="reset">אפס</button>
                 </div>
@@ -215,6 +215,10 @@
             <div class="header">
                 <button id="back-from-house" class="back-btn">← <span data-lang="back">חזור</span></button>
                 <h2 class="house-screen-title" data-lang="myHouse">הבית שלי</h2>
+                <div class="stat-item coins house-coins">
+                    <span class="coin-icon">🪙</span>
+                    <span id="house-total-coins">0</span>
+                </div>
             </div>
             <div class="house-tabs">
                 <button id="house-tab-room" class="house-tab active" onclick="switchHouseTab('room')" data-lang="room">חדר</button>

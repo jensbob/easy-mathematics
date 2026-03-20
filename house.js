@@ -632,9 +632,15 @@ function saveHouseState() {
 }
 
 // Entry point — called from game.js
+function updateHouseCoins() {
+    const el = document.getElementById('house-total-coins');
+    if (el) el.textContent = gameState.totalCoins;
+}
+
 function openHouseScreen(view) {
     loadHouseState();
     showScreen('house-screen');
+    updateHouseCoins();
     switchHouseTab(view || 'room');
 }
 
@@ -770,6 +776,7 @@ function buyItem(itemId) {
     houseState.ownedItems.push(itemId);
     saveHouseState();
 
+    updateHouseCoins();
     renderShop();
 }
 
@@ -785,5 +792,6 @@ function upgradeHouse() {
     houseState.houseLevel++;
     saveHouseState();
 
+    updateHouseCoins();
     renderShop();
 }

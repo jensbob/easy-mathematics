@@ -273,7 +273,7 @@ function updateLanguage(lang) {
     // Update language toggle button
     const langBtn = document.getElementById('lang-toggle');
     if (langBtn) {
-        langBtn.textContent = lang === 'he' ? 'EN' : 'עב';
+        langBtn.textContent = lang === 'he' ? '🇺🇸 English' : '🇮🇱 עברית';
     }
     
     // Save preference
