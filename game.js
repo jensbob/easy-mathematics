@@ -28,8 +28,8 @@ function getThresholds(difficulty, categoryId) {
 
 function updateGradeIndicator() {
     if (!currentGrade) return;
-    const el = document.getElementById('grade-indicator');
-    if (el) el.textContent = t(`gradeTitle${currentGrade}`);
+    const titleEl = document.querySelector('#home-screen .title');
+    if (titleEl) titleEl.textContent = `${t('title')} — ${t(`gradeTitle${currentGrade}`)}`;
 }
 
 function selectGrade(grade) {
@@ -92,49 +92,67 @@ function initGame() {
     const savedLang = localStorage.getItem('lang') || 'he';
     updateLanguage(savedLang);
     // Load shared state from URL if present
-    checkImportState();
+    if (checkImportState()) {
+        const banner = document.getElementById('import-banner');
+        if (banner) {
+            banner.style.display = 'block';
+            setTimeout(() => { banner.style.display = 'none'; }, 4000);
+        }
+    }
 }
 
-// Encode current grade state into a shareable URL
-function exportStateToURL() {
-    const gs = localStorage.getItem(gameStateKey());
-    const hs = localStorage.getItem(`mathHouseState_g${currentGrade}`);
-    const data = {
-        v: 1,
-        g: currentGrade,
-        gs: gs ? JSON.parse(gs) : null,
-        hs: hs ? JSON.parse(hs) : null,
-    };
-    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+// Unicode-safe base64 encode/decode
+function b64encode(str) {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (_, p) => String.fromCharCode(parseInt(p, 16))));
+}
+function b64decode(b64) {
+    return decodeURIComponent(atob(b64).split('').map(c => '%' + c.charCodeAt(0).toString(16).padStart(2, '0')).join(''));
+}
+
+// Encode ALL grades' state into a shareable URL
+function exportAllStatesToURL() {
+    const data = { v: 2 };
+    for (let g = 1; g <= 3; g++) {
+        const gs = localStorage.getItem(`mathGameState_g${g}`);
+        const hs = localStorage.getItem(`mathHouseState_g${g}`);
+        if (gs) data[`gs${g}`] = JSON.parse(gs);
+        if (hs) data[`hs${g}`] = JSON.parse(hs);
+    }
+    const encoded = b64encode(JSON.stringify(data));
     return location.href.split('?')[0] + '?s=' + encoded;
 }
 
-// On page load, check if URL contains shared state and load it
+// On page load, check if URL contains shared state and restore it
 function checkImportState() {
     const params = new URLSearchParams(location.search);
     const encoded = params.get('s');
-    if (!encoded) return;
-    let grade = null;
+    if (!encoded) return false;
     try {
-        const data = JSON.parse(decodeURIComponent(escape(atob(encoded))));
-        if (data.g && data.gs) {
-            localStorage.setItem(`mathGameState_g${data.g}`, JSON.stringify(data.gs));
-            if (data.hs) localStorage.setItem(`mathHouseState_g${data.g}`, JSON.stringify(data.hs));
-            grade = data.g;
+        const data = JSON.parse(b64decode(encoded));
+        for (let g = 1; g <= 3; g++) {
+            if (data[`gs${g}`]) localStorage.setItem(`mathGameState_g${g}`, JSON.stringify(data[`gs${g}`]));
+            if (data[`hs${g}`]) localStorage.setItem(`mathHouseState_g${g}`, JSON.stringify(data[`hs${g}`]));
         }
-    } catch(e) {}
-    history.replaceState(null, '', location.pathname);
-    if (grade) selectGrade(grade);
+        history.replaceState(null, '', location.pathname);
+        return true;
+    } catch(e) {
+        history.replaceState(null, '', location.pathname);
+        return false;
+    }
 }
 
 // Open share modal with QR code and copyable link
 function openShareModal() {
-    const url = exportStateToURL();
+    const url = exportAllStatesToURL();
     document.getElementById('share-url-input').value = url;
     const qrDiv = document.getElementById('share-qr');
     qrDiv.innerHTML = '';
     if (typeof QRCode !== 'undefined') {
-        new QRCode(qrDiv, { text: url, width: 180, height: 180, colorDark: '#1e293b', colorLight: '#ffffff' });
+        try {
+            new QRCode(qrDiv, { text: url, width: 180, height: 180, colorDark: '#1e293b', colorLight: '#ffffff' });
+        } catch(e) {
+            qrDiv.textContent = '';
+        }
     }
     document.getElementById('share-modal').classList.add('active');
 }
@@ -302,13 +320,22 @@ function setupEventListeners() {
     document.getElementById('share-copy-btn').addEventListener('click', () => {
         const input = document.getElementById('share-url-input');
         const btn = document.getElementById('share-copy-btn');
-        navigator.clipboard.writeText(input.value).catch(() => {
+        const flash = () => {
+            const orig = btn.textContent;
+            btn.textContent = t('shareCopied');
+            setTimeout(() => { btn.textContent = orig; }, 2000);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(input.value).then(flash).catch(() => {
+                input.select();
+                document.execCommand('copy');
+                flash();
+            });
+        } else {
             input.select();
             document.execCommand('copy');
-        }).finally(() => {});
-        const orig = btn.textContent;
-        btn.textContent = t('shareCopied');
-        setTimeout(() => { btn.textContent = orig; }, 2000);
+            flash();
+        }
     });
 
     // Grade picker cards

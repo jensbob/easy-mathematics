@@ -90,21 +90,27 @@ body {
     font-size: 1.3rem;
 }
 
-.lang-btn {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 8px 18px;
+.header-btn {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    color: var(--text-secondary);
+    padding: 8px 16px;
     border-radius: 50px;
-    font-weight: 600;
+    font-size: 0.85rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.2s;
     white-space: nowrap;
 }
 
-.lang-btn:hover {
-    background: var(--primary-dark);
-    transform: scale(1.05);
+.header-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.header-btn.reset-btn:hover {
+    border-color: var(--danger);
+    color: var(--danger);
 }
 
 .share-btn {
@@ -121,6 +127,17 @@ body {
 }
 
 .share-btn:hover { background: #0284c7; }
+
+.import-banner {
+    background: #dcfce7;
+    color: #15803d;
+    border: 1.5px solid #86efac;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+}
 
 .share-modal {
     max-width: 360px;
@@ -179,24 +196,6 @@ body {
 
 .share-copy-btn:hover { background: var(--primary-dark); }
 
-.reset-btn {
-    background: transparent;
-    border: 1.5px solid var(--border);
-    padding: 8px 18px;
-    border-radius: 50px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-light);
-    cursor: pointer;
-    transition: all 0.3s;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-}
-
-.reset-btn:hover {
-    border-color: var(--danger);
-    color: var(--danger);
-}
 
 /* Categories Grid */
 .categories-container {
@@ -947,19 +946,14 @@ body {
         font-size: 1.1rem;
     }
 
-    .lang-btn {
-        padding: 8px 14px;
-        font-size: 0.9rem;
-    }
-
     .share-btn {
         padding: 6px 10px;
         font-size: 0.7rem;
     }
 
-    .reset-btn {
-        padding: 6px 14px;
-        font-size: 0.75rem;
+    .header-btn {
+        padding: 6px 12px;
+        font-size: 0.78rem;
     }
 
     .categories-container {
@@ -1147,35 +1141,6 @@ body {
     font-weight: 600;
 }
 
-/* Grade indicator chip */
-.grade-indicator {
-    font-size: 0.85rem;
-    background: var(--primary);
-    color: white;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-weight: 700;
-    white-space: nowrap;
-}
-
-/* Change grade button */
-.grade-btn {
-    background: none;
-    border: 2px solid var(--primary);
-    color: var(--primary);
-    padding: 8px 14px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 700;
-    transition: all 0.2s;
-    white-space: nowrap;
-}
-
-.grade-btn:hover {
-    background: var(--primary);
-    color: white;
-}
 
 @media (max-width: 768px) {
     .grade-cards {
@@ -1199,8 +1164,4 @@ body {
         font-size: 1.5rem;
     }
 
-    .grade-btn {
-        padding: 6px 10px;
-        font-size: 0.75rem;
-    }
 }

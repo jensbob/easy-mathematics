@@ -29,6 +29,8 @@
                         <div class="grade-name-en">3rd</div>
                     </div>
                 </div>
+                <div id="import-banner" class="import-banner" data-lang="shareImported" style="display:none">✓ ההתקדמות נטענה! בחר/י כיתה.</div>
+                <button id="share-btn" class="share-btn" data-lang="shareBtn">העבר התקדמות להתקן אחר</button>
             </div>
         </div>
 
@@ -46,11 +48,9 @@
                         <span id="total-stars">0</span>
                     </div>
                     <button id="house-btn" class="house-btn">🏠</button>
-                    <button id="lang-toggle" class="lang-btn">EN</button>
-                    <button id="change-grade-btn" class="grade-btn" data-lang="changeGrade">החלף כיתה</button>
-                    <span id="grade-indicator" class="grade-indicator"></span>
-                    <button id="share-btn" class="share-btn" data-lang="shareBtn">פתח בהתקן אחר (אין סנכרון)</button>
-                    <button id="reset-btn" class="reset-btn" data-lang="reset">אפס</button>
+                    <button id="lang-toggle" class="header-btn">EN</button>
+                    <button id="change-grade-btn" class="header-btn" data-lang="changeGrade">החלף כיתה</button>
+                    <button id="reset-btn" class="header-btn reset-btn" data-lang="reset">אפס</button>
                 </div>
             </div>
 
@@ -307,7 +307,7 @@
     <!-- Share / QR modal -->
     <div id="share-modal" class="modal-overlay">
         <div class="modal share-modal">
-            <h3 class="share-modal-title" data-lang="shareTitle">פתח בהתקן אחר</h3>
+            <h3 class="share-modal-title" data-lang="shareTitle">העתק התקדמות להתקן אחר</h3>
             <div id="share-qr" class="share-qr"></div>
             <div class="share-url-row">
                 <input type="text" id="share-url-input" readonly class="share-url-input">
