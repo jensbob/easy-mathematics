@@ -155,7 +155,12 @@ function exportAllStatesToURL() {
     for (let g = 1; g <= 3; g++) {
         const gs = localStorage.getItem(`mathGameState_g${g}`);
         const hs = localStorage.getItem(`mathHouseState_g${g}`);
-        if (gs) data[`gs${g}`] = JSON.parse(gs);
+        if (gs) {
+            const gsObj = JSON.parse(gs);
+            // Strip bestTime to reduce URL size (cosmetic data, not needed on new device)
+            gsObj.categories.forEach(cat => cat.problems.forEach(prob => delete prob.bestTime));
+            data[`gs${g}`] = gsObj;
+        }
         if (hs) data[`hs${g}`] = JSON.parse(hs);
     }
     const encoded = b64encode(JSON.stringify(data));
@@ -187,12 +192,15 @@ function openShareModal() {
     document.getElementById('share-url-input').value = url;
     const qrDiv = document.getElementById('share-qr');
     qrDiv.innerHTML = '';
+    let qrOk = false;
     if (typeof QRCode !== 'undefined') {
         try {
             new QRCode(qrDiv, { text: url, width: 180, height: 180, colorDark: '#1e293b', colorLight: '#ffffff' });
-        } catch(e) {
-            qrDiv.textContent = '';
-        }
+            qrOk = true;
+        } catch(e) {}
+    }
+    if (!qrOk) {
+        qrDiv.innerHTML = `<p class="qr-fallback">${currentLang === 'he' ? 'הקישור ארוך מדי לקוד QR — השתמש בכפתור ההעתקה' : 'Link too long for QR — use the copy button below'}</p>`;
     }
     document.getElementById('share-modal').classList.add('active');
 }
