@@ -141,7 +141,7 @@ function initGame() {
     });
 }
 
-// Unicode-safe base64 encode/decode
+// Unicode-safe base64 encode/decode (legacy, kept for v2 import fallback)
 function b64encode(str) {
     return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (_, p) => String.fromCharCode(parseInt(p, 16))));
 }
@@ -149,21 +149,134 @@ function b64decode(b64) {
     return decodeURIComponent(atob(b64).split('').map(c => '%' + c.charCodeAt(0).toString(16).padStart(2, '0')).join(''));
 }
 
-// Encode ALL grades' state into a shareable URL
-function exportAllStatesToURL() {
-    const data = { v: 2 };
+// Compact binary state encoding (version 3)
+// Layout: [version:8] [270 problem values × 2 bits] [3 grades × 22 house bits]
+// Problem value: 0=unsolved, 1–3=stars earned
+// House per grade: 3 upgrade bits (one per tier, 0/1) + 19 item ownership bits (0/1)
+
+function getGradeItems(grade) {
+    return SHOP_ITEMS.filter(it => !it.grades || it.grades.includes(grade));
+}
+
+function encodeStateCompact() {
+    const bits = [];
+    function pushBits(value, n) {
+        for (let i = n - 1; i >= 0; i--) bits.push((value >> i) & 1);
+    }
+
+    pushBits(3, 8); // version
+
+    // 270 problem values × 2 bits each
     for (let g = 1; g <= 3; g++) {
         const gs = localStorage.getItem(`mathGameState_g${g}`);
-        const hs = localStorage.getItem(`mathHouseState_g${g}`);
-        if (gs) {
-            const gsObj = JSON.parse(gs);
-            // Strip bestTime to reduce URL size (cosmetic data, not needed on new device)
-            gsObj.categories.forEach(cat => cat.problems.forEach(prob => delete prob.bestTime));
-            data[`gs${g}`] = gsObj;
+        const state = gs ? JSON.parse(gs) : null;
+        for (let c = 0; c < 9; c++) {
+            for (let p = 0; p < 10; p++) {
+                let val = 0;
+                if (state) {
+                    const prob = state.categories[c]?.problems[p];
+                    if (prob?.solved) val = prob.stars || 1;
+                }
+                pushBits(val, 2);
+            }
         }
-        if (hs) data[`hs${g}`] = JSON.parse(hs);
     }
-    const encoded = b64encode(JSON.stringify(data));
+
+    // 3 grades × 22 house bits: 3 upgrade bits + N item bits
+    for (let g = 1; g <= 3; g++) {
+        const hs = localStorage.getItem(`mathHouseState_g${g}`);
+        const state = hs ? JSON.parse(hs) : { houseLevel: 0, ownedItems: [] };
+        // Encode house level as 3 separate upgrade bits (unary)
+        for (let tier = 1; tier <= 3; tier++) {
+            pushBits(state.houseLevel >= tier ? 1 : 0, 1);
+        }
+        for (const item of getGradeItems(g)) {
+            pushBits(state.ownedItems.includes(item.id) ? 1 : 0, 1);
+        }
+    }
+
+    // Pad to byte boundary
+    while (bits.length % 8 !== 0) bits.push(0);
+
+    const bytes = [];
+    for (let i = 0; i < bits.length; i += 8) {
+        let byte = 0;
+        for (let j = 0; j < 8; j++) byte = (byte << 1) | (bits[i + j] || 0);
+        bytes.push(byte);
+    }
+
+    // URL-safe base64 (no padding needed for QR)
+    return btoa(String.fromCharCode(...bytes))
+        .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+}
+
+function decodeStateCompact(encoded) {
+    const b64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
+    const binary = atob(b64);
+    const bits = [];
+    for (let i = 0; i < binary.length; i++) {
+        const byte = binary.charCodeAt(i);
+        for (let j = 7; j >= 0; j--) bits.push((byte >> j) & 1);
+    }
+
+    let pos = 0;
+    function readBits(n) {
+        let val = 0;
+        for (let i = 0; i < n; i++) val = (val << 1) | (bits[pos++] || 0);
+        return val;
+    }
+
+    if (readBits(8) !== 3) return false; // wrong version
+
+    // Decode problems
+    for (let g = 1; g <= 3; g++) {
+        const state = {
+            totalCoins: 0,
+            totalStars: 0,
+            categories: Array.from({ length: 9 }, (_, i) => ({
+                id: i,
+                unlocked: i === 0,
+                problems: Array.from({ length: 10 }, (_, j) => ({
+                    id: j, solved: false, stars: 0, coins: 0,
+                }))
+            }))
+        };
+        for (let c = 0; c < 9; c++) {
+            for (let p = 0; p < 10; p++) {
+                const val = readBits(2);
+                if (val > 0) {
+                    state.categories[c].problems[p].solved = true;
+                    state.categories[c].problems[p].stars = val;
+                }
+            }
+            if (c < 8 && state.categories[c].problems.every(p => p.solved)) {
+                state.categories[c + 1].unlocked = true;
+            }
+        }
+        state.totalStars = state.categories.reduce(
+            (t, cat) => t + cat.problems.reduce((s, p) => s + p.stars, 0), 0);
+        localStorage.setItem(`mathGameState_g${g}`, JSON.stringify(state));
+    }
+
+    // Decode house state
+    for (let g = 1; g <= 3; g++) {
+        let houseLevel = 0;
+        for (let tier = 1; tier <= 3; tier++) {
+            if (readBits(1)) houseLevel = tier;
+        }
+        const ownedItems = [];
+        for (const item of getGradeItems(g)) {
+            if (readBits(1)) ownedItems.push(item.id);
+        }
+        localStorage.setItem(`mathHouseState_g${g}`, JSON.stringify({ houseLevel, ownedItems }));
+    }
+
+    return true;
+}
+
+// Encode ALL grades' state into a shareable URL (compact binary v3)
+function exportAllStatesToURL() {
+    const encoded = encodeStateCompact();
     return location.href.split('?')[0] + '?s=' + encoded;
 }
 
@@ -173,17 +286,26 @@ function checkImportState() {
     const encoded = params.get('s');
     if (!encoded) return false;
     try {
-        const data = JSON.parse(b64decode(encoded));
-        for (let g = 1; g <= 3; g++) {
-            if (data[`gs${g}`]) localStorage.setItem(`mathGameState_g${g}`, JSON.stringify(data[`gs${g}`]));
-            if (data[`hs${g}`]) localStorage.setItem(`mathHouseState_g${g}`, JSON.stringify(data[`hs${g}`]));
+        // Try compact binary v3 first
+        if (decodeStateCompact(encoded)) {
+            history.replaceState(null, '', location.pathname);
+            return true;
         }
-        history.replaceState(null, '', location.pathname);
-        return true;
-    } catch(e) {
-        history.replaceState(null, '', location.pathname);
-        return false;
-    }
+    } catch(e) {}
+    try {
+        // Fall back to legacy JSON v2
+        const data = JSON.parse(b64decode(encoded));
+        if (data.v === 2) {
+            for (let g = 1; g <= 3; g++) {
+                if (data[`gs${g}`]) localStorage.setItem(`mathGameState_g${g}`, JSON.stringify(data[`gs${g}`]));
+                if (data[`hs${g}`]) localStorage.setItem(`mathHouseState_g${g}`, JSON.stringify(data[`hs${g}`]));
+            }
+            history.replaceState(null, '', location.pathname);
+            return true;
+        }
+    } catch(e) {}
+    history.replaceState(null, '', location.pathname);
+    return false;
 }
 
 // Open share modal with QR code and copyable link
