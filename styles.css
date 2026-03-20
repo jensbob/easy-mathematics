@@ -395,6 +395,7 @@ body {
     color: var(--text);
     font-weight: 800;
     direction: ltr;
+    white-space: pre-line;
 }
 
 .answer-section {

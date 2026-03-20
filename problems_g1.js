@@ -77,8 +77,8 @@ const problemGenerators_g1 = {
             const seq = [start, start+2, start+4];
             return {
                 question: currentLang === 'he'
-                    ? `ספירה בקפיצות של 2: ${seq.join(', ')}, ?`
-                    : `Count by 2s: ${seq.join(', ')}, ?`,
+                    ? `מה הבא?\n${seq.join(', ')}, ?`
+                    : `What comes next?\n${seq.join(', ')}, ?`,
                 answer: start+6, difficulty: 1
             };
         },
@@ -87,8 +87,8 @@ const problemGenerators_g1 = {
             const seq = [start, start+2, start+4, start+6];
             return {
                 question: currentLang === 'he'
-                    ? `ספירה בקפיצות של 2: ${seq.join(', ')}, ?`
-                    : `Count by 2s: ${seq.join(', ')}, ?`,
+                    ? `מה הבא?\n${seq.join(', ')}, ?`
+                    : `What comes next?\n${seq.join(', ')}, ?`,
                 answer: start+8, difficulty: 1
             };
         },
@@ -96,8 +96,8 @@ const problemGenerators_g1 = {
             const seq = [2, 4, 6, 8];
             return {
                 question: currentLang === 'he'
-                    ? `ספירה בקפיצות של 2: ${seq.join(', ')}, ?`
-                    : `Count by 2s: ${seq.join(', ')}, ?`,
+                    ? `מה הבא?\n${seq.join(', ')}, ?`
+                    : `What comes next?\n${seq.join(', ')}, ?`,
                 answer: 10, difficulty: 1
             };
         },
@@ -107,8 +107,8 @@ const problemGenerators_g1 = {
             const seq = [start, start+5, start+10];
             return {
                 question: currentLang === 'he'
-                    ? `ספירה בקפיצות של 5: ${seq.join(', ')}, ?`
-                    : `Count by 5s: ${seq.join(', ')}, ?`,
+                    ? `מה הבא?\n${seq.join(', ')}, ?`
+                    : `What comes next?\n${seq.join(', ')}, ?`,
                 answer: start+15, difficulty: 2
             };
         },
@@ -116,8 +116,8 @@ const problemGenerators_g1 = {
             const seq = [5, 10, 15, 20];
             return {
                 question: currentLang === 'he'
-                    ? `ספירה בקפיצות של 5: ${seq.join(', ')}, ?`
-                    : `Count by 5s: ${seq.join(', ')}, ?`,
+                    ? `מה הבא?\n${seq.join(', ')}, ?`
+                    : `What comes next?\n${seq.join(', ')}, ?`,
                 answer: 25, difficulty: 2
             };
         },
@@ -126,8 +126,8 @@ const problemGenerators_g1 = {
             const seq = [start, start+5, start+10, start+15];
             return {
                 question: currentLang === 'he'
-                    ? `ספירה בקפיצות של 5: ${seq.join(', ')}, ?`
-                    : `Count by 5s: ${seq.join(', ')}, ?`,
+                    ? `מה הבא?\n${seq.join(', ')}, ?`
+                    : `What comes next?\n${seq.join(', ')}, ?`,
                 answer: start+20, difficulty: 2
             };
         },
@@ -136,8 +136,8 @@ const problemGenerators_g1 = {
             const seq = [start, start+2, start+4, start+6, start+8];
             return {
                 question: currentLang === 'he'
-                    ? `ספירה בקפיצות של 2: ${seq.join(', ')}, ?`
-                    : `Count by 2s: ${seq.join(', ')}, ?`,
+                    ? `מה הבא?\n${seq.join(', ')}, ?`
+                    : `What comes next?\n${seq.join(', ')}, ?`,
                 answer: start+10, difficulty: 2
             };
         },
@@ -147,8 +147,8 @@ const problemGenerators_g1 = {
             const seq = [start, start+10, start+20];
             return {
                 question: currentLang === 'he'
-                    ? `ספירה בקפיצות של 10: ${seq.join(', ')}, ?`
-                    : `Count by 10s: ${seq.join(', ')}, ?`,
+                    ? `מה הבא?\n${seq.join(', ')}, ?`
+                    : `What comes next?\n${seq.join(', ')}, ?`,
                 answer: start+30, difficulty: 3
             };
         },
@@ -156,8 +156,8 @@ const problemGenerators_g1 = {
             const seq = [10, 20, 30, 40];
             return {
                 question: currentLang === 'he'
-                    ? `ספירה בקפיצות של 10: ${seq.join(', ')}, ?`
-                    : `Count by 10s: ${seq.join(', ')}, ?`,
+                    ? `מה הבא?\n${seq.join(', ')}, ?`
+                    : `What comes next?\n${seq.join(', ')}, ?`,
                 answer: 50, difficulty: 3
             };
         },
@@ -166,8 +166,8 @@ const problemGenerators_g1 = {
             const seq = [start, start+10, start+20, start+30];
             return {
                 question: currentLang === 'he'
-                    ? `ספירה בקפיצות של 10: ${seq.join(', ')}, ?`
-                    : `Count by 10s: ${seq.join(', ')}, ?`,
+                    ? `מה הבא?\n${seq.join(', ')}, ?`
+                    : `What comes next?\n${seq.join(', ')}, ?`,
                 answer: start+40, difficulty: 3
             };
         }
