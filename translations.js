@@ -57,19 +57,19 @@ const translations = {
         itemMirror: "מראה",
         itemPlushy: "בובה רכה",
         itemBall: "כדור",
-        itemCloset: "ארון",
-        itemFridge: "מקרר",
+        itemBookshelf: "מדפי ספרים",
+        itemBubbleTea: "תה בועות",
         itemIcecream: "מכונת גלידה",
         itemPizza: "תנור פיצה",
-        itemLunchbox: "קופסת אוכל",
+        itemDonut: "דונאט",
         itemCandy: "סוכריות",
         itemGarden: "גינה פורחת",
         itemTree: "עץ",
-        itemSandbox: "ארגז חול",
+        itemSlide: "מגלשה",
         itemPool: "בריכה",
         itemConsole: "קונסולת משחקים",
         itemRocket: "רקטה",
-        itemTrampoline: "טרמפולינה",
+        itemRobot: "רובוט",
         itemPhone: "טלפון",
         itemKite: "עפיפון",
         itemCar: "מכונית",
@@ -107,6 +107,7 @@ const translations = {
         g1cat6: "השוואת מספרים",
         g1cat7: "סדרות מספרים",
         g1cat8: "בעיות מילוליות",
+        g1cat9: "אתגר מסכם",
         g2cat0: "חיבור עד 20 (חזרה)",
         g2cat1: "חיסור עד 20 (חזרה)",
         g2cat2: "חיבור עד 100",
@@ -116,6 +117,7 @@ const translations = {
         g2cat6: "מחצית ורבע",
         g2cat7: "שעון",
         g2cat8: "בעיות מילוליות",
+        g2cat9: "אתגר מסכם",
         g3cat0: "חיבור עד 100",
         g3cat1: "חיסור עד 100",
         g3cat2: "שברים פשוטים",
@@ -124,7 +126,8 @@ const translations = {
         g3cat5: "חילוק עד לוח הכפל 10",
         g3cat6: "בעיות מילוליות",
         g3cat7: "כפל עד 20",
-        g3cat8: "חיבור עד 9999"
+        g3cat8: "חיבור עד 9999",
+        g3cat9: "אתגר מסכם"
     },
     en: {
         title: "Easy Mathematics",
@@ -184,19 +187,19 @@ const translations = {
         itemMirror: "Mirror",
         itemPlushy: "Plushy",
         itemBall: "Ball",
-        itemCloset: "Closet",
-        itemFridge: "Fridge",
+        itemBookshelf: "Bookshelf",
+        itemBubbleTea: "Bubble Tea",
         itemIcecream: "Ice Cream Machine",
         itemPizza: "Pizza Oven",
-        itemLunchbox: "Lunch Box",
+        itemDonut: "Donut",
         itemCandy: "Candy",
         itemGarden: "Garden",
         itemTree: "Tree",
-        itemSandbox: "Sandbox",
+        itemSlide: "Slide",
         itemPool: "Pool",
         itemConsole: "Game Console",
         itemRocket: "Rocket",
-        itemTrampoline: "Trampoline",
+        itemRobot: "Robot",
         itemPhone: "Phone",
         itemKite: "Kite",
         itemCar: "Car",
@@ -234,6 +237,7 @@ const translations = {
         g1cat6: "Comparing Numbers",
         g1cat7: "Number Sequences",
         g1cat8: "Word Problems",
+        g1cat9: "Final Challenge",
         g2cat0: "Addition up to 20 (review)",
         g2cat1: "Subtraction up to 20 (review)",
         g2cat2: "Addition up to 100",
@@ -243,6 +247,7 @@ const translations = {
         g2cat6: "Halves and Quarters",
         g2cat7: "Time",
         g2cat8: "Word Problems",
+        g2cat9: "Final Challenge",
         g3cat0: "Addition up to 100",
         g3cat1: "Subtraction up to 100",
         g3cat2: "Basic Fractions",
@@ -251,7 +256,8 @@ const translations = {
         g3cat5: "Division (times table up to 10)",
         g3cat6: "Word Problems",
         g3cat7: "Multiplication up to 20",
-        g3cat8: "Addition up to 9999"
+        g3cat8: "Addition up to 9999",
+        g3cat9: "Final Challenge"
     }
 };
 
@@ -273,7 +279,7 @@ function updateLanguage(lang) {
     // Update language toggle button
     const langBtn = document.getElementById('lang-toggle');
     if (langBtn) {
-        langBtn.textContent = lang === 'he' ? '🇺🇸 English' : '🇮🇱 עברית';
+        langBtn.innerHTML = lang === 'he' ? `${UI_SVGS.flagEn} English` : `${UI_SVGS.flagHe} עברית`;
     }
     
     // Save preference

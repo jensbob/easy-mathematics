@@ -90,6 +90,25 @@ body {
     font-size: 1.3rem;
 }
 
+/* OpenMoji icon sizing */
+.openmoji-icon {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+.house-btn .openmoji-icon {
+    width: 28px;
+    height: 28px;
+}
+
+.category-stats .openmoji-icon {
+    width: 18px;
+    height: 18px;
+}
+
 .header-btn {
     background: transparent;
     border: 1.5px solid var(--border);
@@ -132,13 +151,24 @@ body {
     background: rgba(255,255,255,0.25);
     border: 2px solid rgba(255,255,255,0.6);
     color: white;
-    padding: 10px 20px;
+    padding: 8px 16px;
     border-radius: 50px;
     font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
     white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+}
+
+.lang-toggle-btn img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    display: block;
 }
 .lang-toggle-btn:hover {
     background: rgba(255,255,255,0.4);
@@ -155,74 +185,6 @@ body {
     font-weight: 600;
     text-align: center;
 }
-
-.share-modal {
-    max-width: 360px;
-    width: 92%;
-    text-align: center;
-}
-
-.share-modal-title {
-    margin: 0 0 16px;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text-primary);
-}
-
-.share-qr {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 180px;
-    margin-bottom: 16px;
-}
-
-.qr-fallback {
-    text-align: center;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    padding: 16px;
-    background: var(--bg);
-    border-radius: 12px;
-    max-width: 200px;
-}
-
-.share-url-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 14px;
-}
-
-.share-url-input {
-    flex: 1;
-    padding: 8px 10px;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    font-size: 0.72rem;
-    color: var(--text-secondary);
-    background: #f8fafc;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    direction: ltr;
-    text-align: left;
-}
-
-.share-copy-btn {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 10px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.2s;
-}
-
-.share-copy-btn:hover { background: var(--primary-dark); }
-
 
 /* Categories Grid */
 .categories-container {
@@ -289,16 +251,18 @@ body {
 
 .category-stats {
     display: flex;
-    gap: 20px;
+    gap: 16px;
     margin-bottom: 20px;
-    font-size: 1.3rem;
+    font-size: 1rem;
     font-weight: 600;
+    align-items: center;
 }
 
 .stars-earned, .coins-earned {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
+    white-space: nowrap;
 }
 
 .start-btn {
@@ -523,8 +487,21 @@ body {
 }
 
 .stars-display {
-    font-size: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     margin-bottom: 30px;
+}
+
+.stars-display .star-side .openmoji-icon {
+    width: 64px;
+    height: 64px;
+}
+
+.stars-display .star-center .openmoji-icon {
+    width: 88px;
+    height: 88px;
 }
 
 .rewards {
@@ -546,6 +523,14 @@ body {
 
 .reward-value {
     color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.reward-value .openmoji-icon {
+    width: 28px;
+    height: 28px;
 }
 
 .result-actions {
@@ -657,6 +642,9 @@ body {
     color: #92400e;
     border: 1.5px solid #fcd34d;
     padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50px;
     font-size: 1.3rem;
     cursor: pointer;
@@ -728,10 +716,6 @@ body {
     backdrop-filter: blur(4px);
 }
 
-.house-tier-emoji {
-    font-size: 2.2rem;
-}
-
 .house-tier-name {
     font-size: 1.4rem;
     font-weight: 800;
@@ -778,10 +762,20 @@ body {
     min-width: 70px;
 }
 
-.house-item-svg svg {
-    display: block;
+.house-item-svg {
     width: 52px;
     height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.house-item-svg svg, .house-item-svg img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
 }
 
 .house-item-label {
@@ -870,14 +864,37 @@ body {
     opacity: 0.55;
 }
 
-.shop-item-svg svg {
-    display: block;
+.shop-item-svg {
     width: 52px;
     height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-bottom: 4px;
+}
+
+.shop-item-svg svg, .shop-item-svg img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
 }
 
 .shop-upgrade-emoji {
-    font-size: 2rem;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.shop-upgrade-emoji img, .house-tier-emoji img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    object-fit: contain;
 }
 
 .shop-item-name {
@@ -1049,8 +1066,14 @@ body {
         font-size: 1.8rem;
     }
 
-    .stars-display {
-        font-size: 3.5rem;
+    .stars-display .star-side .openmoji-icon {
+        width: 48px;
+        height: 48px;
+    }
+
+    .stars-display .star-center .openmoji-icon {
+        width: 64px;
+        height: 64px;
     }
 
     .reward-item {
@@ -1192,4 +1215,13 @@ body {
         font-size: 1.5rem;
     }
 
+}
+
+.house-tier-emoji {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }

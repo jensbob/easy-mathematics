@@ -486,6 +486,22 @@ const problemGenerators_g1 = {
                 answer: a+b, difficulty: 3
             };
         }
+    ],
+    // Category 9: Final Challenge (Mixed)
+    9: [
+        // Easy
+        () => { const a = Math.floor(Math.random()*5)+1; const b = Math.floor(Math.random()*4)+1; return { question: `${a} + ${b}`, answer: a+b, difficulty: 1 }; },
+        () => { const a = Math.floor(Math.random()*8)+2; const b = Math.floor(Math.random()*a)+1; return { question: `${a} - ${b}`, answer: a-b, difficulty: 1 }; },
+        () => { const a = 10; const b = Math.floor(Math.random()*5)+1; return { question: `${a} - ${b}`, answer: a-b, difficulty: 1 }; },
+        // Medium
+        () => { const a = Math.floor(Math.random()*10)+5; const b = Math.floor(Math.random()*5)+1; return { question: `${a} + ${b}`, answer: a+b, difficulty: 2 }; },
+        () => { const a = Math.floor(Math.random()*15)+5; const b = Math.floor(Math.random()*5)+1; return { question: `${a} - ${b}`, answer: a-b, difficulty: 2 }; },
+        () => { const seq = [2, 4, 6, 8]; return { question: `2, 4, 6, 8, ?`, answer: 10, difficulty: 2 }; },
+        () => { const a = Math.floor(Math.random()*10)+10; const b = 20-a; return { question: `${a} + ? = 20`, answer: b, difficulty: 2 }; },
+        // Hard
+        () => { const a = Math.floor(Math.random()*20)+10; const b = Math.floor(Math.random()*10)+5; return { question: `${a} + ${b}`, answer: a+b, difficulty: 3 }; },
+        () => { const a = 20; const b = Math.floor(Math.random()*15)+1; return { question: `${a} - ${b}`, answer: a-b, difficulty: 3 }; },
+        () => { const a = Math.floor(Math.random()*10)+10; const b = Math.floor(Math.random()*10)+1; return { question: `${a} - ${b}`, answer: a-b, difficulty: 3 }; }
     ]
 };
 

@@ -118,6 +118,7 @@ function restoreFromURL() {
 
 // Initialize game
 function initGame() {
+    injectUIIcons();
     setupEventListeners();
     // Load saved language (grade-screen is already active in HTML)
     const savedLang = localStorage.getItem('lang') || 'he';
@@ -332,13 +333,29 @@ function loadGameState() {
     const saved = localStorage.getItem(gameStateKey());
     if (saved) {
         gameState = JSON.parse(saved);
+        // Migration: Ensure 10 categories exist
+        if (gameState.categories.length < 10) {
+            for (let i = gameState.categories.length; i < 10; i++) {
+                gameState.categories.push({
+                    id: i,
+                    unlocked: false,
+                    problems: Array.from({ length: 10 }, (_, j) => ({
+                        id: j,
+                        solved: false,
+                        stars: 0,
+                        coins: 0,
+                        bestTime: null
+                    }))
+                });
+            }
+        }
         gameState.totalCoins = computeTotalCoins();
     } else {
         // Initialize new game state
         gameState = {
             totalCoins: 0,
             totalStars: 0,
-            categories: Array.from({ length: 9 }, (_, i) => ({
+            categories: Array.from({ length: 10 }, (_, i) => ({
                 id: i,
                 unlocked: i === 0, // Only first category unlocked
                 problems: Array.from({ length: 10 }, (_, j) => ({
@@ -411,8 +428,8 @@ function updateCategoryCards() {
         
         // Update display
         card.querySelector('.solved').textContent = solvedCount;
-        card.querySelector('.stars-earned span').textContent = totalStars;
-        card.querySelector('.coins-earned span').textContent = totalCoins;
+        card.querySelector('.stars-earned').innerHTML = `${UI_SVGS.star} <span>${totalStars}</span>`;
+        card.querySelector('.coins-earned').innerHTML = `${UI_SVGS.coin} <span>${totalCoins}</span>`;
         
         // Check if solved to mark complete
         if (solvedCount === 10) {
@@ -657,15 +674,14 @@ function openCategory(categoryId) {
             card.classList.add('solved');
         }
         
-        const stars = '⭐'.repeat(problem.stars);
+        const starsHtml = UI_SVGS.star.repeat(problem.stars);
         const statusText = problem.solved ? t('solved') : (isLocked ? t('locked') : '');
-        
+
         card.innerHTML = `
             <div class="problem-number">${index + 1}</div>
-            <div class="problem-stars">${stars}</div>
+            <div class="problem-stars">${starsHtml}</div>
             <div class="problem-status">${statusText}</div>
-        `;
-        
+        `;        
         if (!isLocked) {
             card.addEventListener('click', () => openProblem(categoryId, index));
         }
@@ -800,7 +816,13 @@ function showResultScreen(stars, coins) {
     }
     
     document.getElementById('result-message').textContent = message;
-    document.getElementById('stars-display').textContent = '⭐'.repeat(stars);
+    let starsHtml;
+    if (stars === 3) {
+        starsHtml = `<span class="star-side">${UI_SVGS.star}</span><span class="star-center">${UI_SVGS.star}</span><span class="star-side">${UI_SVGS.star}</span>`;
+    } else {
+        starsHtml = `<span class="star-side">${UI_SVGS.star}</span>`.repeat(stars);
+    }
+    document.getElementById('stars-display').innerHTML = starsHtml;
     document.getElementById('coins-earned').textContent = coins;
     
     updateTotalStats();

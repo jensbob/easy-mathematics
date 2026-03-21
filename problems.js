@@ -699,6 +699,62 @@ const problemGenerators = {
                 difficulty: 3 
             };
         }
+    ],
+    // Category 9: Final Challenge (Mixed Review)
+    9: [
+        // Easy
+        () => {
+            const a = Math.floor(Math.random() * 50) + 10;
+            const b = Math.floor(Math.random() * 50) + 10;
+            return { question: `${a} + ${b}`, answer: a + b, difficulty: 1 };
+        },
+        () => {
+            const a = Math.floor(Math.random() * 80) + 20;
+            const b = Math.floor(Math.random() * 20) + 1;
+            return { question: `${a} - ${b}`, answer: a - b, difficulty: 1 };
+        },
+        () => {
+            const a = Math.floor(Math.random() * 10) + 1;
+            const b = Math.floor(Math.random() * 10) + 1;
+            return { question: `${a} × ${b}`, answer: a * b, difficulty: 1 };
+        },
+        // Medium
+        () => {
+            const a = Math.floor(Math.random() * 100) + 50;
+            const b = Math.floor(Math.random() * 50) + 10;
+            return { question: `${a} + ${b}`, answer: a + b, difficulty: 2 };
+        },
+        () => {
+            const a = Math.floor(Math.random() * 100) + 50;
+            const b = Math.floor(Math.random() * 50) + 10;
+            return { question: `${a} - ${b}`, answer: a - b, difficulty: 2 };
+        },
+        () => {
+            const a = Math.floor(Math.random() * 12) + 1;
+            const b = Math.floor(Math.random() * 10) + 1;
+            return { question: `${a} × ${b}`, answer: a * b, difficulty: 2 };
+        },
+        () => {
+            const b = Math.floor(Math.random() * 9) + 2;
+            const a = b * (Math.floor(Math.random() * 10) + 1);
+            return { question: `${a} : ${b}`, answer: a / b, difficulty: 2 };
+        },
+        // Hard
+        () => {
+            const a = Math.floor(Math.random() * 500) + 100;
+            const b = Math.floor(Math.random() * 500) + 100;
+            return { question: `${a} + ${b}`, answer: a + b, difficulty: 3 };
+        },
+        () => {
+            const a = Math.floor(Math.random() * 15) + 5;
+            const b = Math.floor(Math.random() * 12) + 2;
+            return { question: `${a} × ${b}`, answer: a * b, difficulty: 3 };
+        },
+        () => {
+            const a = Math.floor(Math.random() * 900) + 100;
+            const b = Math.floor(Math.random() * 100) + 10;
+            return { question: `${a} - ${b}`, answer: a - b, difficulty: 3 };
+        }
     ]
 };
 

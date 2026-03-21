@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Famous Game & Movie Style Mockup</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #1a1a2e; color: #e0e0e0; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: #16213e; padding: 20px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h1 { text-align: center; color: #4cc9f0; margin-bottom: 5px; }
+        p { text-align: center; color: #aaa; margin-bottom: 30px; }
+        .item-row { display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #2a2a40; }
+        .item-name { width: 140px; font-weight: bold; color: #fff; font-size: 1.2em; text-transform: capitalize; }
+        .option-group { display: flex; gap: 15px; flex: 1; justify-content: space-around; }
+        .option-card { background: #0f3460; padding: 15px; border-radius: 12px; cursor: pointer; border: 3px solid transparent; text-align: center; width: 220px; transition: all 0.3s ease; }
+        .option-card:hover { transform: scale(1.05); background: #1a4b8c; }
+        .option-card.selected { border-color: #4cc9f0; background: #1a4b8c; box-shadow: 0 0 20px rgba(76, 201, 240, 0.4); }
+        .icon-preview { width: 100px; height: 100px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; background: #222; border-radius: 15px; border: 2px solid #333; }
+        .icon-preview svg { width: 85px; height: 85px; }
+        .label { font-size: 0.9em; font-weight: bold; margin-bottom: 5px; color: #4cc9f0; }
+        .desc { font-size: 0.75em; color: #aaa; line-height: 1.3; height: 3em; display: flex; align-items: center; justify-content: center; }
+        #export-section { margin-top: 40px; text-align: center; border-top: 2px solid #4cc9f0; padding-top: 30px; }
+        textarea { width: 100%; height: 120px; background: #0f3460; color: #4cc9f0; border: 1px solid #4cc9f0; margin-top: 15px; font-family: monospace; padding: 15px; border-radius: 8px; font-size: 0.9em; }
+        button { background: #4cc9f0; border: none; padding: 15px 40px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.1em; color: #1a1a2e; transition: background 0.2s; }
+        button:hover { background: #3db5d8; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Famous Style Mockups (Batch 1)</h1>
+    <p>Reimagining items in the iconic visual languages of legendary media. Select your favorites!</p>
+    <div id="items-list"></div>
+    <div id="export-section">
+        <button onclick="generateConfig()">Generate Configuration JSON</button>
+        <textarea id="output-json" readonly placeholder="Your selected configuration will appear here..."></textarea>
+    </div>
+</div>
+
+<script src="../translations.js"></script>
+<script src="../house.js"></script>
+<script src="pixel-art-data.js"></script>
+
+<script>
+    const selections = {};
+    const versions = ['original', 'v1', 'v2', 'v3'];
+    const labels = {
+        'original': 'Original',
+        'v1': 'Disney Style',
+        'v2': 'Super Mario',
+        'v3': 'Civilization'
+    };
+    const descs = {
+        'original': 'Current low-detail version',
+        'v1': 'Ornate gold and velvet baroque.',
+        'v2': 'Bold primary colors and Nintendo sheen.',
+        'v3': 'Strategic hex-tile iconography.'
+    };
+
+    function init() {
+        const container = document.getElementById('items-list');
+        Object.keys(PIXEL_ART_MOCKUPS).forEach(key => {
+            selections[key] = 'original'; 
+            const row = document.createElement('div');
+            row.className = 'item-row';
+            const itemData = SHOP_ITEMS.find(i => i.id === key);
+            const name = translations['en'][itemData?.nameKey] || key;
+            
+            let cardsHtml = '';
+            versions.forEach(v => {
+                const svg = v === 'original' ? ITEM_SVGS[key] : PIXEL_ART_MOCKUPS[key][v];
+                cardsHtml += `
+                    <div class="option-card ${v === 'original' ? 'selected' : ''}" onclick="selectOption('${key}', '${v}')">
+                        <div class="label">${labels[v]}</div>
+                        <div class="icon-preview">${svg}</div>
+                        <div class="desc">${descs[v]}</div>
+                    </div>
+                `;
+            });
+
+            row.innerHTML = `
+                <div class="item-name">${name}</div>
+                <div class="option-group" id="group-${key}">${cardsHtml}</div>
+            `;
+            container.appendChild(row);
+        });
+    }
+
+    function selectOption(key, version) {
+        selections[key] = version;
+        const group = document.getElementById(`group-${key}`);
+        Array.from(group.children).forEach((card, i) => {
+            card.classList.toggle('selected', versions[i] === version);
+        });
+    }
+
+    function generateConfig() {
+        const result = { choices: {} };
+        Object.keys(selections).forEach(key => {
+            result.choices[key] = selections[key] === 'original' ? ITEM_SVGS[key] : PIXEL_ART_MOCKUPS[key][selections[key]];
+        });
+        document.getElementById('output-json').value = JSON.stringify(result, null, 2);
+    }
+    window.onload = init;
+</script>
+</body>
+</html>

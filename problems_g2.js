@@ -341,6 +341,22 @@ const problemGenerators_g2 = {
                 answer: a+b, difficulty: 3
             };
         }
+    ],
+    // Category 9: Final Challenge (Mixed)
+    9: [
+        // Easy
+        () => { const a = Math.floor(Math.random()*20)+10; const b = Math.floor(Math.random()*10)+5; return { question: `${a} + ${b}`, answer: a+b, difficulty: 1 }; },
+        () => { const a = Math.floor(Math.random()*30)+20; const b = Math.floor(Math.random()*10)+5; return { question: `${a} - ${b}`, answer: a-b, difficulty: 1 }; },
+        () => { const a = 2; const b = Math.floor(Math.random()*10)+1; return { question: `${a} × ${b}`, answer: a*b, difficulty: 1 }; },
+        // Medium
+        () => { const a = Math.floor(Math.random()*40)+30; const b = Math.floor(Math.random()*30)+10; return { question: `${a} + ${b}`, answer: a+b, difficulty: 2 }; },
+        () => { const a = Math.floor(Math.random()*50)+40; const b = Math.floor(Math.random()*30)+10; return { question: `${a} - ${b}`, answer: a-b, difficulty: 2 }; },
+        () => { const a = 5; const b = Math.floor(Math.random()*10)+1; return { question: `${a} × ${b}`, answer: a*b, difficulty: 2 }; },
+        () => { const hour = Math.floor(Math.random()*11)+1; return { question: `${hour}:00 + 30 min`, answer: 30, displayQuestion: `${hour}:30`, difficulty: 2 }; },
+        // Hard
+        () => { const a = Math.floor(Math.random()*50)+50; const b = Math.floor(Math.random()*40)+40; return { question: `${a} + ${b}`, answer: a+b, difficulty: 3 }; },
+        () => { const a = 100; const b = Math.floor(Math.random()*50)+20; return { question: `${a} - ${b}`, answer: a-b, difficulty: 3 }; },
+        () => { const a = 10; const b = Math.floor(Math.random()*10)+1; return { question: `${a} × ${b}`, answer: a*b, difficulty: 3 }; }
     ]
 };
 
