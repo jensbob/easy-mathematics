@@ -869,7 +869,7 @@ body {
 
 .unlock-stars-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 6px;
     margin-bottom: 20px;
     width: 100%;
@@ -905,7 +905,7 @@ body {
     height: 14px;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 600px) {
     .unlock-content {
         padding: 32px 16px 24px;
     }
