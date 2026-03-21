@@ -599,6 +599,21 @@ function setupEventListeners() {
         }
     });
     
+    // Numpad: sync button presses to hidden #answer-input
+    document.querySelectorAll('.numpad-btn[data-val]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const inp = document.getElementById('answer-input');
+            if (inp.value.length < 5) inp.value += btn.dataset.val;
+            document.getElementById('numpad-display').textContent = inp.value || '?';
+        });
+    });
+    document.querySelector('.numpad-back')?.addEventListener('click', () => {
+        const inp = document.getElementById('answer-input');
+        inp.value = inp.value.slice(0, -1);
+        document.getElementById('numpad-display').textContent = inp.value || '?';
+    });
+    document.querySelector('.numpad-submit')?.addEventListener('click', checkAnswer);
+
     // Enter key on result screen advances to next problem
     document.addEventListener('keypress', (e) => {
         if (e.key === 'Enter' && document.getElementById('result-screen').classList.contains('active')) {
@@ -708,6 +723,7 @@ function openProblem(categoryId, problemIndex) {
     const questionText = currentProblem.displayQuestion || currentProblem.question;
     document.getElementById('question').textContent = questionText;
     document.getElementById('answer-input').value = '';
+    document.getElementById('numpad-display').textContent = '?';
     document.getElementById('feedback').textContent = '';
     document.getElementById('feedback').className = 'feedback';
     
@@ -799,6 +815,7 @@ function checkAnswer() {
             feedback.textContent = '';
             feedback.className = 'feedback';
             document.getElementById('answer-input').value = '';
+            document.getElementById('numpad-display').textContent = '?';
             document.getElementById('answer-input').focus();
         }, 1500);
     }
