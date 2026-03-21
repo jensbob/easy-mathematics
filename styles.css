@@ -1176,6 +1176,14 @@ body {
 .grade-emoji {
     font-size: 3.5rem;
     margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grade-emoji .openmoji-icon {
+    width: 72px;
+    height: 72px;
 }
 
 .grade-name-he {
@@ -1203,8 +1211,9 @@ body {
         min-width: 120px;
     }
 
-    .grade-emoji {
-        font-size: 2.8rem;
+    .grade-emoji .openmoji-icon {
+        width: 56px;
+        height: 56px;
     }
 
     .grade-name-he {
