@@ -171,10 +171,11 @@ function b64decode(b64) {
     return decodeURIComponent(atob(b64).split('').map(c => '%' + c.charCodeAt(0).toString(16).padStart(2, '0')).join(''));
 }
 
-// Compact binary state encoding (version 3)
-// Layout: [version:8] [270 problem values × 2 bits] [3 grades × 22 house bits]
+// Compact binary state encoding (version 4)
+// Layout: [version:8] [300 problem values × 2 bits] [3 grades × house bits]
 // Problem value: 0=unsolved, 1–3=stars earned
-// House per grade: 3 upgrade bits (one per tier, 0/1) + 19 item ownership bits (0/1)
+// House per grade: 3 upgrade bits (one per tier, 0/1) + N item ownership bits (0/1)
+// v3→v4: expanded from 9 to 10 categories per grade
 
 function getGradeItems(grade) {
     return SHOP_ITEMS.filter(it => !it.grades || it.grades.includes(grade));
@@ -186,13 +187,13 @@ function encodeStateCompact() {
         for (let i = n - 1; i >= 0; i--) bits.push((value >> i) & 1);
     }
 
-    pushBits(3, 8); // version
+    pushBits(4, 8); // version
 
-    // 270 problem values × 2 bits each
+    // 300 problem values × 2 bits each (3 grades × 10 cats × 10 problems)
     for (let g = 1; g <= 3; g++) {
         const gs = localStorage.getItem(`mathGameState_g${g}`);
         const state = gs ? JSON.parse(gs) : null;
-        for (let c = 0; c < 9; c++) {
+        for (let c = 0; c < 10; c++) {
             for (let p = 0; p < 10; p++) {
                 let val = 0;
                 if (state) {
@@ -248,14 +249,14 @@ function decodeStateCompact(encoded) {
         return val;
     }
 
-    if (readBits(8) !== 3) return false; // wrong version
+    if (readBits(8) !== 4) return false; // wrong version
 
     // Decode problems
     for (let g = 1; g <= 3; g++) {
         const state = {
             totalCoins: 0,
             totalStars: 0,
-            categories: Array.from({ length: 9 }, (_, i) => ({
+            categories: Array.from({ length: 10 }, (_, i) => ({
                 id: i,
                 unlocked: i === 0,
                 problems: Array.from({ length: 10 }, (_, j) => ({
@@ -263,7 +264,7 @@ function decodeStateCompact(encoded) {
                 }))
             }))
         };
-        for (let c = 0; c < 9; c++) {
+        for (let c = 0; c < 10; c++) {
             for (let p = 0; p < 10; p++) {
                 const val = readBits(2);
                 if (val > 0) {
@@ -271,7 +272,7 @@ function decodeStateCompact(encoded) {
                     state.categories[c].problems[p].stars = val;
                 }
             }
-            if (c < 8 && state.categories[c].problems.every(p => p.solved)) {
+            if (c < 9 && state.categories[c].problems.every(p => p.solved)) {
                 state.categories[c + 1].unlocked = true;
             }
         }
