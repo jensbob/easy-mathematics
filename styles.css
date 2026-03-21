@@ -905,6 +905,22 @@ body {
     height: 14px;
 }
 
+@media (max-width: 400px) {
+    .unlock-content {
+        padding: 32px 16px 24px;
+    }
+    .unlock-star-cell {
+        padding: 4px 2px;
+    }
+    .unlock-prob-stars .openmoji-icon {
+        width: 10px;
+        height: 10px;
+    }
+    .unlock-prob-num {
+        font-size: 0.6rem;
+    }
+}
+
 .unlock-continue {
     width: 100%;
     font-size: 1.15rem;
