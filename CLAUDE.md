@@ -48,12 +48,12 @@ Three grades (Aleph/1st, Bet/2nd, Gimmel/3rd), each with 9 categories × 10 prob
 |---|---|---|---|
 | 0 | Addition up to 10 | Addition up to 20 (review) | Addition up to 100 |
 | 1 | Subtraction up to 10 | Subtraction up to 20 (review) | Subtraction up to 100 |
-| 2 | Addition up to 20 | Addition up to 100 | Basic Fractions |
-| 3 | Subtraction up to 20 | Subtraction up to 100 | Multiplication up to 12 |
-| 4 | Skip Counting | Place Value | Time & Clock |
-| 5 | Missing Addend | Multiplication by 2,5,10 | Division (times table ×10) |
-| 6 | Bigger or Smaller? | Halves and Quarters | Word Problems |
-| 7 | Even and Odd | Time | Addition & Subtraction up to 1,000 |
+| 2 | Bigger or Smaller? | Addition up to 100 | Basic Fractions |
+| 3 | Even and Odd | Subtraction up to 100 | Multiplication up to 12 |
+| 4 | Addition up to 20 | Place Value | Time & Clock |
+| 5 | Subtraction up to 20 | Multiplication by 2,5,10 | Division (times table ×10) |
+| 6 | Skip Counting | Halves and Quarters | Word Problems |
+| 7 | Missing Addend | Time | Addition & Subtraction up to 1,000 |
 | 8 | Word Problems | Word Problems | Addition up to 9999 |
 
 Grade 1 also has **Category 9: Final Challenge** (mixed problems).
