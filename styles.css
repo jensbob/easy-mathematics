@@ -419,6 +419,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: border-color 0.15s, color 0.15s;
+}
+
+.numpad-display.error {
+    border-color: var(--danger);
+    color: var(--danger);
+    background: #fee2e2;
 }
 
 .numpad-grid {
@@ -1380,7 +1387,7 @@ body {
     }
 
     .question-box h1 {
-        font-size: 2.2rem;
+        font-size: 1.9rem;
     }
 
     .desktop-only { display: none; }
@@ -1406,6 +1413,10 @@ body {
 
     .feedback {
         font-size: 1.2rem;
+    }
+
+    .feedback.incorrect {
+        display: none;
     }
 
     /* Problem header */

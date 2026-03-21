@@ -853,13 +853,19 @@ function checkAnswer() {
     } else {
         feedback.textContent = t('incorrect');
         feedback.className = 'feedback incorrect';
-        
+
+        // On mobile: show error in numpad display
+        const numpadDisplay = document.getElementById('numpad-display');
+        numpadDisplay.textContent = t('incorrect');
+        numpadDisplay.classList.add('error');
+
         // Clear after a moment
         setTimeout(() => {
             feedback.textContent = '';
             feedback.className = 'feedback';
             document.getElementById('answer-input').value = '';
-            document.getElementById('numpad-display').textContent = '?';
+            numpadDisplay.textContent = '?';
+            numpadDisplay.classList.remove('error');
             document.getElementById('answer-input').focus();
         }, 1500);
     }
