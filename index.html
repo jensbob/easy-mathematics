@@ -220,14 +220,11 @@
                 <button id="back-to-category" class="back-btn">← <span data-lang="back">חזור</span></button>
                 <div class="problem-info">
                     <span id="problem-number"></span>
-                    <div class="timer-container">
-                        <span class="timer-icon ui-icon-timer"></span>
-                        <span id="timer">0</span>
-                    </div>
+                    <span id="timer" style="display:none">0</span>
                 </div>
             </div>
 
-            <div class="problem-container">
+<div class="problem-container">
                 <div class="question-box">
                     <h1 id="question"></h1>
                 </div>
@@ -296,6 +293,31 @@
             </div>
             <div id="room-view"></div>
             <div id="shop-view" style="display:none"></div>
+        </div>
+    </div>
+
+    <!-- Grade Complete Modal -->
+    <div id="grade-complete-modal" style="display:none" class="grade-complete-modal">
+        <canvas id="grade-complete-canvas"></canvas>
+        <div class="grade-complete-content">
+            <div class="grade-complete-trophy" id="grade-complete-trophy"></div>
+            <h1 class="grade-complete-title" id="grade-complete-title"></h1>
+            <p class="grade-complete-subtitle" id="grade-complete-subtitle"></p>
+            <div class="grade-complete-stats" id="grade-complete-stats"></div>
+            <div class="grade-complete-actions" id="grade-complete-actions"></div>
+        </div>
+    </div>
+
+    <!-- Chapter Unlock Modal -->
+    <div id="unlock-modal" class="unlock-modal" style="display:none">
+        <canvas id="confetti-canvas"></canvas>
+        <div class="unlock-content">
+            <div class="unlock-emoji" id="unlock-emoji"></div>
+            <h2 class="unlock-title" data-lang="chapterUnlocked">פרק חדש נפתח!</h2>
+            <div class="unlock-chapter-name" id="unlock-chapter-name"></div>
+            <div class="unlock-stars-grid" id="unlock-stars-grid"></div>
+            <button class="primary-btn unlock-continue" id="unlock-continue" data-lang="continueGame">המשך</button>
+            <p class="keyboard-hint" id="unlock-enter-hint"></p>
         </div>
     </div>
 

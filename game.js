@@ -21,7 +21,7 @@ function getGenerators() {
 }
 
 function getThresholds(difficulty, categoryId) {
-    if (currentGrade === 1) return getTimeThresholds_g1(difficulty);
+    if (currentGrade === 1) return getTimeThresholds_g1(difficulty, categoryId);
     if (currentGrade === 2) return getTimeThresholds_g2(difficulty, categoryId);
     return getTimeThresholds(difficulty, categoryId);
 }
@@ -51,6 +51,27 @@ function initAudio() {
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
     }
+}
+
+// Play victory fanfare
+function playFanfare() {
+    initAudio();
+    const ac = audioContext;
+    const notes = [261.6, 392, 523.3, 659.3, 784];
+    const times = [0, 0.14, 0.28, 0.38, 0.5];
+    notes.forEach((freq, i) => {
+        const o = ac.createOscillator();
+        const g = ac.createGain();
+        const f = ac.createBiquadFilter();
+        f.type = 'lowpass'; f.frequency.value = 1400;
+        o.type = 'sawtooth';
+        o.frequency.value = freq;
+        const t = ac.currentTime + times[i];
+        g.gain.setValueAtTime(0.22, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + (i === 4 ? 0.9 : 0.22));
+        o.connect(f); f.connect(g); g.connect(ac.destination);
+        o.start(t); o.stop(t + 1);
+    });
 }
 
 // Play success chime sound
@@ -592,6 +613,8 @@ function setupEventListeners() {
     
     // Answer submission
     document.getElementById('submit-answer').addEventListener('click', checkAnswer);
+    // Select all on click so kids can just retype to correct a typo
+    document.getElementById('answer-input').addEventListener('click', (e) => e.target.select());
     document.getElementById('answer-input').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             e.stopPropagation();
@@ -614,9 +637,17 @@ function setupEventListeners() {
     });
     document.querySelector('.numpad-submit')?.addEventListener('click', checkAnswer);
 
-    // Enter key on result screen advances to next problem
+    // Enter key on result screen advances to next problem; on unlock modal continues;
+    // on category screen opens next unsolved problem
     document.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && document.getElementById('result-screen').classList.contains('active')) {
+        if (e.key !== 'Enter') return;
+        if (document.getElementById('unlock-modal').style.display !== 'none') {
+            closeUnlockModal();
+        } else if (document.getElementById('category-screen').classList.contains('active')) {
+            const category = gameState.categories[currentCategory];
+            const nextUnsolved = category.problems.findIndex(p => !p.solved);
+            if (nextUnsolved !== -1) openProblem(currentCategory, nextUnsolved);
+        } else if (document.getElementById('result-screen').classList.contains('active')) {
             document.getElementById('next-problem').click();
         }
     });
@@ -625,20 +656,32 @@ function setupEventListeners() {
     document.getElementById('next-problem').addEventListener('click', () => {
         const category = gameState.categories[currentCategory];
         const nextProblemIndex = currentProblemIndex + 1;
-        
+
         if (nextProblemIndex < 10) {
             openProblem(currentCategory, nextProblemIndex);
         } else {
             // Category complete, check if we should unlock next
+            const maxCat = Object.keys(getGenerators()).length - 1;
             const allSolved = category.problems.every(p => p.solved);
-            if (allSolved && currentCategory < 8) {
+            const didUnlock = allSolved && currentCategory < maxCat &&
+                !gameState.categories[currentCategory + 1].unlocked;
+            const gradeComplete = gameState.categories.every(cat => cat.problems.every(p => p.solved));
+            if (gradeComplete) {
+                saveGameState();
+                showGradeCompleteModal();
+            } else if (didUnlock) {
                 gameState.categories[currentCategory + 1].unlocked = true;
                 saveGameState();
+                showUnlockModal(currentCategory + 1);
+            } else {
+                if (allSolved && currentCategory < maxCat) saveGameState();
+                openCategory(currentCategory);
             }
-            // Refresh the category view to show all updated results
-            openCategory(currentCategory);
         }
     });
+
+    // Unlock modal continue button
+    document.getElementById('unlock-continue').addEventListener('click', closeUnlockModal);
 }
 
 // URL breadcrumb helpers
@@ -690,12 +733,18 @@ function openCategory(categoryId) {
         }
         
         const starsHtml = UI_SVGS.star.repeat(problem.stars);
+        const isNextUnsolved = !problem.solved && !isLocked &&
+            category.problems.slice(0, index).every(p => p.solved);
         const statusText = problem.solved ? t('solved') : (isLocked ? t('locked') : '');
+        const hintHtml = isNextUnsolved
+            ? `<div class="problem-hint desktop-only">${t('hintClickOrEnter')}</div>`
+            : '';
 
         card.innerHTML = `
             <div class="problem-number">${index + 1}</div>
             <div class="problem-stars">${starsHtml}</div>
             <div class="problem-status">${statusText}</div>
+            ${hintHtml}
         `;        
         if (!isLocked) {
             card.addEventListener('click', () => openProblem(categoryId, index));
@@ -737,8 +786,7 @@ function openProblem(categoryId, problemIndex) {
 // Timer functions
 function startTimer() {
     startTime = Date.now();
-    updateTimer();
-    timerInterval = setInterval(updateTimer, 100);
+    timerInterval = setInterval(() => {}, 1000); // keep interval alive for stopTimer()
 }
 
 function stopTimer() {
@@ -748,10 +796,6 @@ function stopTimer() {
     }
 }
 
-function updateTimer() {
-    const elapsed = Math.floor((Date.now() - startTime) / 1000);
-    document.getElementById('timer').textContent = elapsed + 's';
-}
 
 function getElapsedTime() {
     return (Date.now() - startTime) / 1000;
@@ -844,6 +888,153 @@ function showResultScreen(stars, coins) {
     
     updateTotalStats();
     showScreen('result-screen');
+}
+
+// ── Grade complete modal ──────────────────────────────────────────────────
+
+function showGradeCompleteModal() {
+    playFanfare();
+
+    document.getElementById('grade-complete-trophy').innerHTML = getOpenMoji('1F3C6'); // trophy
+    document.getElementById('grade-complete-title').textContent = t('gradeComplete');
+    document.getElementById('grade-complete-subtitle').textContent = t('gradeCompleteSubtitle');
+
+    // Stats
+    document.getElementById('grade-complete-stats').innerHTML = `
+        <div class="grade-stat">
+            ${UI_SVGS.star}
+            <span class="grade-stat-value">${gameState.totalStars}</span>
+            <span class="grade-stat-label">${t('totalStarsLabel')}</span>
+        </div>
+        <div class="grade-stat">
+            ${UI_SVGS.coin}
+            <span class="grade-stat-value">${gameState.totalCoins}</span>
+            <span class="grade-stat-label">${t('totalCoinsLabel')}</span>
+        </div>
+    `;
+
+    // Actions
+    const hasNextGrade = currentGrade < 3;
+    const nextGradeName = hasNextGrade ? t(`gradeTitle${currentGrade + 1}`) : '';
+    document.getElementById('grade-complete-actions').innerHTML = `
+        ${hasNextGrade ? `<button class="primary-btn" id="gc-next-grade">${t('tryNextGrade')} — ${nextGradeName}</button>` : ''}
+        <button class="${hasNextGrade ? 'secondary-btn' : 'primary-btn'}" id="gc-home">${t('backToHome')}</button>
+    `;
+
+    document.getElementById('grade-complete-modal').style.display = 'flex';
+
+    const canvas = document.getElementById('grade-complete-canvas');
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    // Bigger confetti: more particles, longer duration
+    confettiStop = launchConfetti(canvas, 220, 6000);
+
+    if (hasNextGrade) {
+        document.getElementById('gc-next-grade').addEventListener('click', () => {
+            closeGradeCompleteModal();
+            selectGrade(currentGrade + 1);
+        });
+    }
+    document.getElementById('gc-home').addEventListener('click', () => {
+        closeGradeCompleteModal();
+        showScreen('grade-screen');
+        pushNav(null);
+    });
+}
+
+function closeGradeCompleteModal() {
+    document.getElementById('grade-complete-modal').style.display = 'none';
+    if (confettiStop) { confettiStop(); confettiStop = null; }
+}
+
+// ── Chapter unlock modal + confetti ──────────────────────────────────────
+
+let confettiStop = null;
+
+function showUnlockModal(nextCatId) {
+    const name = t(`g${currentGrade}cat${nextCatId}`);
+    document.getElementById('unlock-emoji').innerHTML = getOpenMoji('1F389'); // 🎉 party popper
+    document.getElementById('unlock-chapter-name').textContent = name;
+    document.querySelector('.unlock-title').textContent = t('chapterUnlocked');
+    document.getElementById('unlock-continue').textContent = t('continueGame');
+    document.getElementById('unlock-enter-hint').textContent = t('hintEnterCheck');
+
+    // Build per-problem stars grid for the completed category
+    const problems = gameState.categories[currentCategory].problems;
+    const grid = document.getElementById('unlock-stars-grid');
+    grid.innerHTML = problems.map((p, i) => `
+        <div class="unlock-star-cell">
+            <span class="unlock-prob-num">${i + 1}</span>
+            <span class="unlock-prob-stars">${UI_SVGS.star.repeat(p.stars || 0) || '—'}</span>
+        </div>
+    `).join('');
+
+    const modal = document.getElementById('unlock-modal');
+    modal.style.display = 'flex';
+
+    // Size the canvas to the viewport
+    const canvas = document.getElementById('confetti-canvas');
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    confettiStop = launchConfetti(canvas);
+}
+
+function closeUnlockModal() {
+    document.getElementById('unlock-modal').style.display = 'none';
+    if (confettiStop) { confettiStop(); confettiStop = null; }
+    openCategory(currentCategory + 1);
+}
+
+function launchConfetti(canvas, count = 140, duration = 3800) {
+    const ctx = canvas.getContext('2d');
+    const colors = ['#f59e0b','#10b981','#6366f1','#ec4899','#0ea5e9','#84cc16','#f97316','#a855f7'];
+    const COUNT = count;
+    const particles = Array.from({ length: COUNT }, () => ({
+        x:  Math.random() * canvas.width,
+        y: -20 - Math.random() * canvas.height * 0.5,
+        vx: (Math.random() - 0.5) * 4,
+        vy:  3 + Math.random() * 4,
+        w:   7 + Math.random() * 9,
+        h:   4 + Math.random() * 5,
+        rot: Math.random() * Math.PI * 2,
+        rotV: (Math.random() - 0.5) * 0.18,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        opacity: 1,
+    }));
+
+    let raf;
+    const start = Date.now();
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const elapsed = Date.now() - start;
+
+        particles.forEach(p => {
+            p.x   += p.vx;
+            p.y   += p.vy;
+            p.rot += p.rotV;
+            p.vy  += 0.07; // gravity
+            // fade out in last 1.3s
+            if (elapsed > duration - 1300) p.opacity = Math.max(0, p.opacity - 0.018);
+
+            ctx.save();
+            ctx.globalAlpha = p.opacity;
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rot);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+            ctx.restore();
+        });
+
+        if (elapsed < duration) {
+            raf = requestAnimationFrame(draw);
+        } else {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    }
+
+    draw();
+    return () => { cancelAnimationFrame(raf); ctx.clearRect(0, 0, canvas.width, canvas.height); };
 }
 
 // Initialize when page loads

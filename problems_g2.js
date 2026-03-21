@@ -342,26 +342,64 @@ const problemGenerators_g2 = {
             };
         }
     ],
-    // Category 9: Final Challenge (Mixed)
+    // Category 9: Money Problems (בעיות כסף)
     9: [
-        // Easy
-        () => { const a = Math.floor(Math.random()*20)+10; const b = Math.floor(Math.random()*10)+5; return { question: `${a} + ${b}`, answer: a+b, difficulty: 1 }; },
-        () => { const a = Math.floor(Math.random()*30)+20; const b = Math.floor(Math.random()*10)+5; return { question: `${a} - ${b}`, answer: a-b, difficulty: 1 }; },
-        () => { const a = 2; const b = Math.floor(Math.random()*10)+1; return { question: `${a} × ${b}`, answer: a*b, difficulty: 1 }; },
-        // Medium
-        () => { const a = Math.floor(Math.random()*40)+30; const b = Math.floor(Math.random()*30)+10; return { question: `${a} + ${b}`, answer: a+b, difficulty: 2 }; },
-        () => { const a = Math.floor(Math.random()*50)+40; const b = Math.floor(Math.random()*30)+10; return { question: `${a} - ${b}`, answer: a-b, difficulty: 2 }; },
-        () => { const a = 5; const b = Math.floor(Math.random()*10)+1; return { question: `${a} × ${b}`, answer: a*b, difficulty: 2 }; },
-        () => { const hour = Math.floor(Math.random()*11)+1; return { question: `${hour}:00 + 30 min`, answer: 30, displayQuestion: `${hour}:30`, difficulty: 2 }; },
-        // Hard
-        () => { const a = Math.floor(Math.random()*50)+50; const b = Math.floor(Math.random()*40)+40; return { question: `${a} + ${b}`, answer: a+b, difficulty: 3 }; },
-        () => { const a = 100; const b = Math.floor(Math.random()*50)+20; return { question: `${a} - ${b}`, answer: a-b, difficulty: 3 }; },
-        () => { const a = 10; const b = Math.floor(Math.random()*10)+1; return { question: `${a} × ${b}`, answer: a*b, difficulty: 3 }; }
+        // Easy (0-2): simple totals up to 20₪
+        () => {
+            const a = Math.floor(Math.random()*5)+3; const b = Math.floor(Math.random()*5)+2;
+            return { question: currentLang === 'he' ? `קנית פריט ב-${a}₪ ופריט ב-${b}₪. כמה שילמת?` : `You bought an item for ${a}₪ and one for ${b}₪. How much did you pay?`, answer: a+b, difficulty: 1 };
+        },
+        () => {
+            const price = Math.floor(Math.random()*8)+3; const paid = price + Math.floor(Math.random()*5)+1;
+            return { question: currentLang === 'he' ? `פריט עולה ${price}₪. שילמת ${paid}₪. כמה עודף תקבל?` : `An item costs ${price}₪. You paid ${paid}₪. How much change do you get?`, answer: paid-price, difficulty: 1 };
+        },
+        () => {
+            const a = Math.floor(Math.random()*5)+4; const b = Math.floor(Math.random()*4)+3;
+            return { question: currentLang === 'he' ? `לגלידה ${a}₪ ולמיץ ${b}₪. כמה ביחד?` : `Ice cream costs ${a}₪ and juice costs ${b}₪. How much together?`, answer: a+b, difficulty: 1 };
+        },
+        // Medium (3-6): change from 20₪ or 50₪
+        () => {
+            const price = Math.floor(Math.random()*12)+5;
+            return { question: currentLang === 'he' ? `פריט עולה ${price}₪. שילמת 20₪. כמה עודף?` : `An item costs ${price}₪. You paid 20₪. How much change?`, answer: 20-price, difficulty: 2 };
+        },
+        () => {
+            const a = Math.floor(Math.random()*10)+8; const b = Math.floor(Math.random()*10)+7;
+            return { question: currentLang === 'he' ? `ספר עולה ${a}₪ ועיפרון עולה ${b}₪. כמה ביחד?` : `A book costs ${a}₪ and a pencil costs ${b}₪. How much together?`, answer: a+b, difficulty: 2 };
+        },
+        () => {
+            const price = Math.floor(Math.random()*15)+10;
+            return { question: currentLang === 'he' ? `צעצוע עולה ${price}₪. יש לך 50₪. כמה ישאר?` : `A toy costs ${price}₪. You have 50₪. How much will you have left?`, answer: 50-price, difficulty: 2 };
+        },
+        () => {
+            const price = Math.floor(Math.random()*20)+15;
+            return { question: currentLang === 'he' ? `פריט עולה ${price}₪. שילמת 50₪. כמה עודף?` : `An item costs ${price}₪. You paid 50₪. How much change?`, answer: 50-price, difficulty: 2 };
+        },
+        // Hard (7-9): change from 100₪, multi-item
+        () => {
+            const price = Math.floor(Math.random()*40)+20;
+            return { question: currentLang === 'he' ? `פריט עולה ${price}₪. שילמת 100₪. כמה עודף?` : `An item costs ${price}₪. You paid 100₪. How much change?`, answer: 100-price, difficulty: 3 };
+        },
+        () => {
+            const a = Math.floor(Math.random()*20)+15; const b = Math.floor(Math.random()*20)+15;
+            return { question: currentLang === 'he' ? `חולצה עולה ${a}₪ ומכנסיים עולים ${b}₪. כמה ביחד?` : `A shirt costs ${a}₪ and pants cost ${b}₪. How much together?`, answer: a+b, difficulty: 3 };
+        },
+        () => {
+            const a = Math.floor(Math.random()*15)+10; const b = Math.floor(Math.random()*15)+10; const paid = 100;
+            return { question: currentLang === 'he' ? `קנית פריט ב-${a}₪ ופריט ב-${b}₪. שילמת ${paid}₪. כמה עודף?` : `You bought items for ${a}₪ and ${b}₪. You paid ${paid}₪. How much change?`, answer: paid-(a+b), difficulty: 3 };
+        },
     ]
 };
 
 function getTimeThresholds_g2(difficulty, categoryId) {
-    // Category 8 (word problems) gets standard thresholds (no 4-digit special case)
+    // Categories 8 and 9 (word/money problems) get extra time for reading
+    if (categoryId === 8 || categoryId === 9) {
+        const thresholds = {
+            1: { excellent: 20, good: 40 },
+            2: { excellent: 40, good: 70 },
+            3: { excellent: 70, good: 110 },
+        };
+        return thresholds[difficulty];
+    }
     const thresholds = {
         1: { excellent: 8,  good: 18 },
         2: { excellent: 20, good: 38 },

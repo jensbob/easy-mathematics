@@ -339,6 +339,13 @@ body {
     font-weight: 600;
 }
 
+.problem-hint {
+    font-size: 0.7rem;
+    color: var(--primary);
+    opacity: 0.8;
+    margin-top: 2px;
+}
+
 .problem-card.solved {
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: white;
@@ -538,6 +545,40 @@ body {
     border-radius: 12px;
 }
 
+/* Star bar */
+.star-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 24px 4px;
+    direction: ltr;
+}
+
+.star-bar-stars {
+    font-size: 1rem;
+    min-width: 52px;
+    text-align: right;
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+}
+
+.star-bar-track {
+    flex: 1;
+    height: 18px;
+    background: #e2e8f0;
+    border-radius: 9px;
+    overflow: hidden;
+}
+
+.star-bar-fill {
+    height: 100%;
+    width: 100%;
+    border-radius: 9px;
+    background: #22c55e;
+    transform-origin: left center;
+    transition: background-color 0.35s ease;
+}
+
 /* Result Screen */
 .result-container {
     background: var(--card-bg);
@@ -645,6 +686,239 @@ body {
 }
 
 /* Reset Modal */
+/* Grade complete modal */
+.grade-complete-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.7);
+    animation: fadeInOverlay 0.4s ease;
+}
+
+#grade-complete-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.grade-complete-content {
+    position: relative;
+    background: white;
+    border-radius: 28px;
+    padding: 44px 40px 40px;
+    text-align: center;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+    max-width: 420px;
+    width: 92%;
+    animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.grade-complete-trophy {
+    margin-bottom: 16px;
+    animation: bounce 0.7s ease 0.4s both;
+}
+
+.grade-complete-trophy .openmoji-icon {
+    width: 88px;
+    height: 88px;
+}
+
+.grade-complete-title {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.grade-complete-subtitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 24px;
+}
+
+.grade-complete-stats {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 32px;
+    background: var(--bg, #f8faff);
+    border-radius: 16px;
+    padding: 16px 24px;
+}
+
+.grade-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.grade-stat .openmoji-icon {
+    width: 36px;
+    height: 36px;
+}
+
+.grade-stat-value {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--text);
+}
+
+.grade-stat-label {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.grade-complete-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.grade-complete-actions .primary-btn,
+.grade-complete-actions .secondary-btn {
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 16px;
+}
+
+/* Chapter unlock modal */
+.unlock-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.55);
+    animation: fadeInOverlay 0.3s ease;
+}
+
+@keyframes fadeInOverlay {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+#confetti-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.unlock-content {
+    position: relative;
+    background: white;
+    border-radius: 24px;
+    padding: 40px 36px 36px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    max-width: 360px;
+    width: 90%;
+    animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popIn {
+    from { transform: scale(0.6); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+}
+
+.unlock-emoji {
+    margin-bottom: 12px;
+    animation: bounce 0.6s ease 0.3s both;
+}
+
+.unlock-emoji .openmoji-icon {
+    width: 64px;
+    height: 64px;
+}
+
+@keyframes bounce {
+    0%   { transform: scale(0); }
+    60%  { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.unlock-title {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--primary);
+    margin-bottom: 16px;
+}
+
+.unlock-chapter-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text);
+    background: var(--bg, #f8faff);
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin-bottom: 28px;
+    border: 2px solid var(--border, #e2e8f0);
+}
+
+.unlock-stars-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.unlock-star-cell {
+    background: #fff;
+    border: 2px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 6px 4px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.unlock-prob-num {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #475569;
+}
+
+.unlock-prob-stars {
+    font-size: 0.8rem;
+    letter-spacing: -1px;
+    display: flex;
+    gap: 1px;
+}
+
+.unlock-prob-stars .openmoji-icon {
+    width: 14px;
+    height: 14px;
+}
+
+.unlock-continue {
+    width: 100%;
+    font-size: 1.15rem;
+    padding: 16px;
+}
+
+/* Next problem hint wrapper */
+.next-problem-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
 .modal-overlay {
     display: none;
     position: fixed;

@@ -295,56 +295,20 @@ const problemGenerators = {
         }
     ],
     
-    // Category 7: Multiplication up to 20
+    // Category 7: Addition & Subtraction up to 1,000
     7: [
-        // Easy (1-3)
-        () => {
-            const a = Math.floor(Math.random() * 4) + 10; // 10-13
-            const b = Math.floor(Math.random() * 3) + 2; // 2-4
-            return { question: `${a} × ${b}`, answer: a * b, difficulty: 1 };
-        },
-        () => {
-            const a = Math.floor(Math.random() * 5) + 11; // 11-15
-            const b = Math.floor(Math.random() * 4) + 3; // 3-6
-            return { question: `${a} × ${b}`, answer: a * b, difficulty: 1 };
-        },
-        () => {
-            const a = Math.floor(Math.random() * 4) + 12; // 12-15
-            const b = Math.floor(Math.random() * 5) + 4; // 4-8
-            return { question: `${a} × ${b}`, answer: a * b, difficulty: 1 };
-        },
-        // Medium (4-7)
-        () => {
-            const a = Math.floor(Math.random() * 4) + 13; // 13-16
-            const b = Math.floor(Math.random() * 5) + 6; // 6-10
-            return { question: `${a} × ${b}`, answer: a * b, difficulty: 2 };
-        },
-        () => {
-            const a = Math.floor(Math.random() * 3) + 15; // 15-17
-            const b = Math.floor(Math.random() * 6) + 7; // 7-12
-            return { question: `${a} × ${b}`, answer: a * b, difficulty: 2 };
-        },
-        () => {
-            const a = Math.floor(Math.random() * 3) + 16; // 16-18
-            const b = Math.floor(Math.random() * 5) + 8; // 8-12
-            return { question: `${a} × ${b}`, answer: a * b, difficulty: 2 };
-        },
-        () => {
-            const a = Math.floor(Math.random() * 3) + 17; // 17-19
-            const b = Math.floor(Math.random() * 6) + 8; // 8-13
-            return { question: `${a} × ${b}`, answer: a * b, difficulty: 2 };
-        },
-        // Hard (8-10)
-        () => {
-            const a = Math.floor(Math.random() * 2) + 18; // 18-19
-            const b = Math.floor(Math.random() * 5) + 11; // 11-15
-            return { question: `${a} × ${b}`, answer: a * b, difficulty: 3 };
-        },
-        () => {
-            const a = 20;
-            const b = Math.floor(Math.random() * 6) + 10; // 10-15
-            return { question: `${a} × ${b}`, answer: a * b, difficulty: 3 };
-        },
+        // Easy (0-2): 3-digit addition, no carrying
+        () => { const a = Math.floor(Math.random()*4)*100+100; const b = Math.floor(Math.random()*4)*100+100; return { question: `${a} + ${b}`, answer: a+b, difficulty: 1 }; },
+        () => { const a = Math.floor(Math.random()*3)*100+200; const b = Math.floor(Math.random()*3)*10+10; return { question: `${a} + ${b}`, answer: a+b, difficulty: 1 }; },
+        () => { const a = Math.floor(Math.random()*4)*100+400; const b = Math.floor(Math.random()*4)*100+100; return { question: `${a} - ${b}`, answer: a-b, difficulty: 1 }; },
+        // Medium (3-6): 3-digit with carrying/borrowing
+        () => { const a = Math.floor(Math.random()*300)+400; const b = Math.floor(Math.random()*200)+100; return { question: `${a} + ${b}`, answer: a+b, difficulty: 2 }; },
+        () => { const b = Math.floor(Math.random()*200)+100; const a = b+Math.floor(Math.random()*300)+100; return { question: `${a} - ${b}`, answer: a-b, difficulty: 2 }; },
+        () => { const a = Math.floor(Math.random()*250)+350; const b = Math.floor(Math.random()*250)+150; return { question: `${a} + ${b}`, answer: a+b, difficulty: 2 }; },
+        () => { const b = Math.floor(Math.random()*300)+150; const a = b+Math.floor(Math.random()*200)+100; return { question: `${a} - ${b}`, answer: a-b, difficulty: 2 }; },
+        // Hard (7-9): close to 1000, larger borrowing
+        () => { const a = Math.floor(Math.random()*200)+600; const b = Math.floor(Math.random()*200)+200; return { question: `${a} + ${b}`, answer: a+b, difficulty: 3 }; },
+        () => { const b = Math.floor(Math.random()*300)+200; const a = b+Math.floor(Math.random()*300)+200; return { question: `${a} - ${b}`, answer: a-b, difficulty: 3 }; },
         () => {
             const a = 20;
             const b = Math.floor(Math.random() * 5) + 16; // 16-20
@@ -766,16 +730,26 @@ function getDifficulty(problemIndex) {
 }
 
 function getCoinReward(difficulty, stars) {
+    // Gap pattern: 1★→2★ = +2 coins, 2★→3★ = +1 coin (floor is high, speed bonus is small)
     const baseRewards = {
-        1: { 3: 7,  2: 4, 1: 2 },   // Easy:   3×7  = 21
-        2: { 3: 10, 2: 6, 1: 3 },   // Medium: 4×10 = 40
-        3: { 3: 13, 2: 8, 1: 4 },   // Hard:   3×13 = 39  → total 100 per category
+        1: { 1: 4,  2: 6,  3: 7  },  // Easy
+        2: { 1: 7,  2: 9,  3: 10 },  // Medium
+        3: { 1: 10, 2: 12, 3: 13 },  // Hard
     };
     return baseRewards[difficulty][stars] || 0;
 }
 
 // Time thresholds for star ratings (in seconds) based on difficulty
 function getTimeThresholds(difficulty, categoryId) {
+    // Category 6 (word problems) gets extra time for reading
+    if (categoryId === 6) {
+        const thresholds = {
+            1: { excellent: 20, good: 40  },
+            2: { excellent: 45, good: 80  },
+            3: { excellent: 80, good: 130 },
+        };
+        return thresholds[difficulty];
+    }
     // Category 8 (4-digit addition) gets extra time for column arithmetic
     if (categoryId === 8) {
         const thresholds = {

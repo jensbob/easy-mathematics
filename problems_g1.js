@@ -200,195 +200,164 @@ const problemGenerators_g1 = {
             return { question: currentLang === 'he' ? `? + ${b} = ${total}` : `? + ${b} = ${total}`, answer, difficulty: 3 }; }
     ],
 
-    // Category 6: Comparing numbers
+    // Category 6: Bigger or Smaller? (write the bigger/smaller number)
     6: [
-        // Easy (0-2)
+        // Easy (0-2): numbers 1–10, clearly apart, always "which is bigger"
         () => {
-            const b = Math.floor(Math.random()*4)+1; const diff = Math.floor(Math.random()*3)+1; const a = b+diff;
+            const a = Math.floor(Math.random()*4)+6; const b = Math.floor(Math.random()*4)+1;
             return {
-                question: currentLang === 'he'
-                    ? `לדן יש ${a} תפוחים ולשרה יש ${b}. כמה יותר לדן?`
-                    : `Dan has ${a} apples and Sara has ${b}. How many more does Dan have?`,
-                answer: diff, difficulty: 1
+                question: currentLang === 'he' ? `מה גדול יותר: ${a} או ${b}?` : `Which is bigger: ${a} or ${b}?`,
+                answer: Math.max(a, b), difficulty: 1
             };
         },
         () => {
-            const a = Math.floor(Math.random()*4)+3; const b = Math.floor(Math.random()*3)+1;
+            const a = Math.floor(Math.random()*3)+2; const b = Math.floor(Math.random()*3)+6;
             return {
-                question: currentLang === 'he'
-                    ? `כמה יותר גדול ${a} מ-${b}?`
-                    : `How much bigger is ${a} than ${b}?`,
-                answer: a-b, difficulty: 1
+                question: currentLang === 'he' ? `מה גדול יותר: ${a} או ${b}?` : `Which is bigger: ${a} or ${b}?`,
+                answer: Math.max(a, b), difficulty: 1
             };
         },
         () => {
-            const b = Math.floor(Math.random()*4)+2; const diff = Math.floor(Math.random()*3)+1; const a = b+diff;
+            const a = Math.floor(Math.random()*4)+1; const b = Math.floor(Math.random()*4)+5;
             return {
-                question: currentLang === 'he'
-                    ? `יש ${a} ילדים ו-${b} ילדות. כמה יותר ילדים?`
-                    : `There are ${a} boys and ${b} girls. How many more boys?`,
-                answer: diff, difficulty: 1
+                question: currentLang === 'he' ? `מה קטן יותר: ${a} או ${b}?` : `Which is smaller: ${a} or ${b}?`,
+                answer: Math.min(a, b), difficulty: 1
             };
         },
-        // Medium (3-6)
+        // Medium (3-6): numbers 1–20, mix of bigger/smaller
         () => {
-            const b = Math.floor(Math.random()*5)+3; const diff = Math.floor(Math.random()*4)+2; const a = b+diff;
+            const a = Math.floor(Math.random()*8)+11; const b = Math.floor(Math.random()*8)+2;
             return {
-                question: currentLang === 'he'
-                    ? `כמה יותר גדול ${a} מ-${b}?`
-                    : `How much bigger is ${a} than ${b}?`,
-                answer: diff, difficulty: 2
+                question: currentLang === 'he' ? `מה גדול יותר: ${a} או ${b}?` : `Which is bigger: ${a} or ${b}?`,
+                answer: Math.max(a, b), difficulty: 2
             };
         },
         () => {
-            const a = Math.floor(Math.random()*5)+8; const b = Math.floor(Math.random()*5)+3;
+            const a = Math.floor(Math.random()*8)+2; const b = Math.floor(Math.random()*8)+11;
             return {
-                question: currentLang === 'he'
-                    ? `יש ${a} מדבקות כחולות ו-${b} אדומות. כמה מדבקות כחולות יותר?`
-                    : `There are ${a} blue stickers and ${b} red. How many more blue?`,
-                answer: a-b, difficulty: 2
+                question: currentLang === 'he' ? `מה קטן יותר: ${a} או ${b}?` : `Which is smaller: ${a} or ${b}?`,
+                answer: Math.min(a, b), difficulty: 2
             };
         },
         () => {
-            const b = Math.floor(Math.random()*4)+4; const diff = Math.floor(Math.random()*4)+3; const a = b+diff;
+            const a = Math.floor(Math.random()*10)+10; const b = Math.floor(Math.random()*8)+1;
             return {
-                question: currentLang === 'he'
-                    ? `לנועה יש ${a} עפרונות ולגל יש ${b}. כמה עפרונות חסרים לגל?`
-                    : `Noa has ${a} pencils and Gal has ${b}. How many more does Gal need?`,
-                answer: diff, difficulty: 2
+                question: currentLang === 'he' ? `מה גדול יותר: ${b} או ${a}?` : `Which is bigger: ${b} or ${a}?`,
+                answer: Math.max(a, b), difficulty: 2
             };
         },
         () => {
-            const a = Math.floor(Math.random()*5)+10; const b = Math.floor(Math.random()*5)+4;
+            const a = Math.floor(Math.random()*6)+14; const b = Math.floor(Math.random()*6)+6;
             return {
-                question: currentLang === 'he'
-                    ? `כמה יותר גדול ${a} מ-${b}?`
-                    : `How much bigger is ${a} than ${b}?`,
-                answer: a-b, difficulty: 2
+                question: currentLang === 'he' ? `מה קטן יותר: ${a} או ${b}?` : `Which is smaller: ${a} or ${b}?`,
+                answer: Math.min(a, b), difficulty: 2
             };
         },
-        // Hard (7-9): up to 20
+        // Hard (7-9): numbers close together up to 20
         () => {
-            const b = Math.floor(Math.random()*6)+6; const diff = Math.floor(Math.random()*5)+4; const a = b+diff;
+            const b = Math.floor(Math.random()*8)+5; const a = b + Math.floor(Math.random()*3)+1;
             return {
-                question: currentLang === 'he'
-                    ? `לכיתה א יש ${a} תלמידים ולכיתה ב יש ${b}. כמה תלמידים יותר בכיתה א?`
-                    : `Class A has ${a} students and Class B has ${b}. How many more in Class A?`,
-                answer: diff, difficulty: 3
+                question: currentLang === 'he' ? `מה גדול יותר: ${a} או ${b}?` : `Which is bigger: ${a} or ${b}?`,
+                answer: Math.max(a, b), difficulty: 3
             };
         },
         () => {
-            const a = Math.floor(Math.random()*5)+13; const b = Math.floor(Math.random()*6)+5;
+            const a = Math.floor(Math.random()*8)+5; const b = a + Math.floor(Math.random()*3)+1;
             return {
-                question: currentLang === 'he'
-                    ? `כמה יותר גדול ${a} מ-${b}?`
-                    : `How much bigger is ${a} than ${b}?`,
-                answer: a-b, difficulty: 3
+                question: currentLang === 'he' ? `מה קטן יותר: ${a} או ${b}?` : `Which is smaller: ${a} or ${b}?`,
+                answer: Math.min(a, b), difficulty: 3
             };
         },
         () => {
-            const b = Math.floor(Math.random()*6)+7; const diff = Math.floor(Math.random()*5)+5; const a = b+diff;
+            const a = Math.floor(Math.random()*9)+10; const b = a - (Math.floor(Math.random()*3)+1);
             return {
-                question: currentLang === 'he'
-                    ? `לספריה יש ${a} ספרים. הוחזרו ${b}. כמה עוד צריך להחזיר?`
-                    : `Library has ${a} books. ${b} returned. How many more to return?`,
-                answer: diff, difficulty: 3
+                question: currentLang === 'he' ? `מה גדול יותר: ${b} או ${a}?` : `Which is bigger: ${b} or ${a}?`,
+                answer: Math.max(a, b), difficulty: 3
             };
-        }
+        },
     ],
 
-    // Category 7: Number sequences
+    // Category 7: Even and Odd
     7: [
-        // Easy (0-2): +2 patterns
+        // Easy (0-2): "which is even?" with small numbers clearly apart
         () => {
-            const start = Math.floor(Math.random()*5)*2+2;
+            const even = [2,4,6,8,10][Math.floor(Math.random()*5)];
+            const odd  = [1,3,5,7,9][Math.floor(Math.random()*5)];
             return {
-                question: currentLang === 'he'
-                    ? `${start}, ${start+2}, ${start+4}, ?`
-                    : `${start}, ${start+2}, ${start+4}, ?`,
-                answer: start+6, difficulty: 1
+                question: currentLang === 'he' ? `מה המספר הזוגי: ${odd} או ${even}?` : `Which is even: ${odd} or ${even}?`,
+                answer: even, difficulty: 1
             };
         },
         () => {
-            const start = Math.floor(Math.random()*4)*2+1;
+            const odd  = [1,3,5,7,9][Math.floor(Math.random()*5)];
+            const even = [2,4,6,8,10][Math.floor(Math.random()*5)];
             return {
-                question: currentLang === 'he'
-                    ? `${start}, ${start+2}, ${start+4}, ${start+6}, ?`
-                    : `${start}, ${start+2}, ${start+4}, ${start+6}, ?`,
-                answer: start+8, difficulty: 1
+                question: currentLang === 'he' ? `מה המספר האי-זוגי: ${even} או ${odd}?` : `Which is odd: ${even} or ${odd}?`,
+                answer: odd, difficulty: 1
             };
         },
         () => {
+            const even = [2,4,6,8,10][Math.floor(Math.random()*5)];
+            const odd  = [1,3,5,7,9][Math.floor(Math.random()*5)];
             return {
-                question: currentLang === 'he' ? `1, 2, 3, 4, ?` : `1, 2, 3, 4, ?`,
-                answer: 5, difficulty: 1
+                question: currentLang === 'he' ? `מה המספר הזוגי: ${even} או ${odd}?` : `Which is even: ${even} or ${odd}?`,
+                answer: even, difficulty: 1
             };
         },
-        // Medium (3-6): +3 or +5 patterns
+        // Medium (3-6): numbers up to 20, next even/odd
         () => {
-            const start = Math.floor(Math.random()*4)+1;
+            const odd  = [11,13,15,17,19][Math.floor(Math.random()*5)];
+            const even = [12,14,16,18,20][Math.floor(Math.random()*5)];
             return {
-                question: currentLang === 'he'
-                    ? `${start}, ${start+3}, ${start+6}, ?`
-                    : `${start}, ${start+3}, ${start+6}, ?`,
-                answer: start+9, difficulty: 2
-            };
-        },
-        () => {
-            const start = Math.floor(Math.random()*4)+2;
-            return {
-                question: currentLang === 'he'
-                    ? `${start}, ${start+3}, ${start+6}, ${start+9}, ?`
-                    : `${start}, ${start+3}, ${start+6}, ${start+9}, ?`,
-                answer: start+12, difficulty: 2
+                question: currentLang === 'he' ? `מה המספר הזוגי: ${odd} או ${even}?` : `Which is even: ${odd} or ${even}?`,
+                answer: even, difficulty: 2
             };
         },
         () => {
-            const start = Math.floor(Math.random()*3)*5+5;
+            const n = Math.floor(Math.random()*9)*2+2; // 2,4,...18
             return {
-                question: currentLang === 'he'
-                    ? `${start}, ${start+5}, ${start+10}, ?`
-                    : `${start}, ${start+5}, ${start+10}, ?`,
-                answer: start+15, difficulty: 2
+                question: currentLang === 'he' ? `מה המספר הזוגי הבא אחרי ${n}?` : `What is the next even number after ${n}?`,
+                answer: n+2, difficulty: 2
             };
         },
         () => {
-            const start = Math.floor(Math.random()*4)+1;
+            const n = Math.floor(Math.random()*9)*2+1; // 1,3,...17
             return {
-                question: currentLang === 'he'
-                    ? `${start}, ${start+4}, ${start+8}, ?`
-                    : `${start}, ${start+4}, ${start+8}, ?`,
-                answer: start+12, difficulty: 2
-            };
-        },
-        // Hard (7-9): decreasing or mixed
-        () => {
-            const start = Math.floor(Math.random()*5)+16;
-            return {
-                question: currentLang === 'he'
-                    ? `${start}, ${start-2}, ${start-4}, ${start-6}, ?`
-                    : `${start}, ${start-2}, ${start-4}, ${start-6}, ?`,
-                answer: start-8, difficulty: 3
+                question: currentLang === 'he' ? `מה המספר האי-זוגי הבא אחרי ${n}?` : `What is the next odd number after ${n}?`,
+                answer: n+2, difficulty: 2
             };
         },
         () => {
-            const start = Math.floor(Math.random()*5)+15;
+            const even = [12,14,16,18,20][Math.floor(Math.random()*5)];
+            const odd  = [11,13,15,17,19][Math.floor(Math.random()*5)];
             return {
-                question: currentLang === 'he'
-                    ? `${start}, ${start-3}, ${start-6}, ?`
-                    : `${start}, ${start-3}, ${start-6}, ?`,
-                answer: start-9, difficulty: 3
+                question: currentLang === 'he' ? `מה המספר האי-זוגי: ${even} או ${odd}?` : `Which is odd: ${even} or ${odd}?`,
+                answer: odd, difficulty: 2
+            };
+        },
+        // Hard (7-9): close numbers up to 20, next even/odd with larger values
+        () => {
+            const n = Math.floor(Math.random()*7)*2+4; // 4,6,...16
+            const decoy = n + 1;
+            return {
+                question: currentLang === 'he' ? `מה המספר הזוגי: ${n} או ${decoy}?` : `Which is even: ${n} or ${decoy}?`,
+                answer: n, difficulty: 3
             };
         },
         () => {
-            const start = Math.floor(Math.random()*4)+2;
+            const n = Math.floor(Math.random()*7)*2+6; // 6,8,...18
             return {
-                question: currentLang === 'he'
-                    ? `${start}, ${start+2}, ?, ${start+6}, ${start+8}`
-                    : `${start}, ${start+2}, ?, ${start+6}, ${start+8}`,
-                answer: start+4, difficulty: 3
+                question: currentLang === 'he' ? `מה המספר הזוגי הבא אחרי ${n}?` : `What is the next even number after ${n}?`,
+                answer: n+2, difficulty: 3
             };
-        }
+        },
+        () => {
+            const n = Math.floor(Math.random()*7)*2+5; // 5,7,...17
+            return {
+                question: currentLang === 'he' ? `מה המספר האי-זוגי הבא אחרי ${n}?` : `What is the next odd number after ${n}?`,
+                answer: n+2, difficulty: 3
+            };
+        },
     ],
 
     // Category 8: Word problems up to 20
@@ -505,7 +474,16 @@ const problemGenerators_g1 = {
     ]
 };
 
-function getTimeThresholds_g1(difficulty) {
+function getTimeThresholds_g1(difficulty, categoryId) {
+    // Category 8 (word problems) gets extra time for reading
+    if (categoryId === 8) {
+        const thresholds = {
+            1: { excellent: 20, good: 40 },
+            2: { excellent: 30, good: 55 },
+            3: { excellent: 45, good: 75 },
+        };
+        return thresholds[difficulty];
+    }
     const thresholds = {
         1: { excellent: 5,  good: 12 },
         2: { excellent: 12, good: 25 },
