@@ -1379,6 +1379,19 @@ body {
     }
 
     /* Problem screen */
+    #problem-screen {
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100dvh - 40px);
+    }
+
+    #problem-screen .problem-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
     .problem-container {
         padding: 24px 16px;
     }
