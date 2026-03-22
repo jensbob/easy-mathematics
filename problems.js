@@ -657,7 +657,7 @@ const problemGenerators = {
             const answer = mins;
             return { 
                 question: currentLang === 'he' 
-                    ? `${totalMin} דקות = ${hours} שעות ו-? דקות`
+                    ? `\u2067${totalMin} דקות = ${hours} שעות ו-? דקות\u2069`
                     : `${totalMin} minutes = ${hours} hours and ? minutes`,
                 answer: answer,
                 difficulty: 3 

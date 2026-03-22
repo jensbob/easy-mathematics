@@ -94,7 +94,7 @@ const problemGenerators_g2 = {
             const tens = Math.floor(Math.random()*9)+1; const ones = Math.floor(Math.random()*10);
             return {
                 question: currentLang === 'he'
-                    ? `${tens} עשרות + ${ones} אחדות = ?`
+                    ? `\u2067${tens} עשרות + ${ones} אחדות = ?\u2069`
                     : `${tens} tens + ${ones} ones = ?`,
                 answer: tens*10+ones, difficulty: 1
             };
@@ -113,7 +113,7 @@ const problemGenerators_g2 = {
             const hundreds = Math.floor(Math.random()*5)+1; const tens = Math.floor(Math.random()*10); const ones = Math.floor(Math.random()*10);
             return {
                 question: currentLang === 'he'
-                    ? `${hundreds} מאות + ${tens} עשרות + ${ones} אחדות = ?`
+                    ? `\u2067${hundreds} מאות + ${tens} עשרות + ${ones} אחדות = ?\u2069`
                     : `${hundreds} hundreds + ${tens} tens + ${ones} ones = ?`,
                 answer: hundreds*100+tens*10+ones, difficulty: 2
             };
@@ -141,7 +141,7 @@ const problemGenerators_g2 = {
             const hundreds = Math.floor(Math.random()*8)+1; const tens = Math.floor(Math.random()*10);
             return {
                 question: currentLang === 'he'
-                    ? `${hundreds} מאות + ${tens} עשרות = ?`
+                    ? `\u2067${hundreds} מאות + ${tens} עשרות = ?\u2069`
                     : `${hundreds} hundreds + ${tens} tens = ?`,
                 answer: hundreds*100+tens*10, difficulty: 3
             };

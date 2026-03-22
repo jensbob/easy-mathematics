@@ -385,7 +385,7 @@ const problemGenerators_g1 = {
             const a = Math.floor(Math.random()*4)+3; const b = Math.floor(Math.random()*4)+3;
             return {
                 question: currentLang === 'he'
-                    ? `${a} ציפורים יושבות על עץ. הגיעו עוד ${b}. כמה ציפורים יש?`
+                    ? `\u2067${a} ציפורים יושבות על עץ. הגיעו עוד ${b}. כמה ציפורים יש?\u2069`
                     : `${a} birds sit on a tree. ${b} more arrive. How many birds?`,
                 answer: a+b, difficulty: 1
             };
