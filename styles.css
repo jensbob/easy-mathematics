@@ -1413,10 +1413,6 @@ body {
     }
 
     .feedback {
-        font-size: 1.2rem;
-    }
-
-    .feedback.incorrect {
         display: none;
     }
 
