@@ -857,7 +857,7 @@ function checkAnswer() {
 
         // On mobile: show error in numpad display
         const numpadDisplay = document.getElementById('numpad-display');
-        numpadDisplay.textContent = t('incorrect');
+        numpadDisplay.textContent = t('incorrectShort');
         numpadDisplay.classList.add('error');
 
         // Clear after a moment
