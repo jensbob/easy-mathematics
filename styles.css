@@ -1414,6 +1414,8 @@ body {
 
     .feedback {
         font-size: 1.2rem;
+        min-height: 0;
+        padding: 0;
     }
 
     .feedback.incorrect {
