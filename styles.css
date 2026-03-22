@@ -1389,7 +1389,8 @@ body {
         flex: 1;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: flex-start;
+        gap: 24px;
     }
 
     .problem-container {
@@ -1427,9 +1428,6 @@ body {
 
     .feedback {
         font-size: 1.2rem;
-    }
-
-    .feedback {
         min-height: 0;
         padding: 0;
     }
